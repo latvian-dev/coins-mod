@@ -1,0 +1,8 @@
+### Items ###
+
+coins:item.coins.name=Coin
+coins:item.coins_p.name=Coins
+
+### Lang ###
+
+coins:command.usage=/coins <subcommand>
