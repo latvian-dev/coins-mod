@@ -21,6 +21,16 @@ public class CmdSetcoins extends CommandBase
 		if(!(ics instanceof EntityPlayer)) return;
 		EntityPlayer ep = (EntityPlayer)ics;
 		
-		LatCore.printChat(ics, "Coins: " + PlayerCoins.get(ep));
+		if(s != null && s.length == 1)
+		{
+			boolean rel = s[0].startsWith("~");
+			long i0 = PlayerCoins.get(ep);
+			
+			int i = parseInt(ics, rel ? (s[0].length() == 1 ? "0" : s[0].substring(1)) : s[0]);
+			PlayerCoins.set(ep, rel ? (i0 + i) : i);
+			
+			if(rel) LatCore.printChat(ics, "Added " + i + " coins. You now have " + (i + i0) + " coins");
+			else LatCore.printChat(ics, "Coins set to: " + i);
+		}
 	}
 }
