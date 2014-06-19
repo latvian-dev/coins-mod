@@ -1,4 +1,6 @@
 package latmod.coins;
+import java.util.Random;
+
 import cpw.mods.fml.relauncher.*;
 import net.minecraft.creativetab.*;
 import net.minecraft.entity.player.*;
@@ -10,16 +12,24 @@ import latmod.core.base.*;
 
 public class ItemCoins extends ItemLM
 {
+	public static ItemCoins inst;
+	
+	public static ItemStack COINS_1;
+	public static ItemStack COINS_10;
+	public static ItemStack COINS_100;
+	public static ItemStack COINS_1000;
+	public static ItemStack COINS_10000;
+	
 	public ItemCoins(String s)
 	{
 		super(Coins.mod, s);
 		setMaxStackSize(1);
 		
-		CoinsItems.COINS_1 = create(1);
-		CoinsItems.COINS_10 = create(10);
-		CoinsItems.COINS_100 = create(100);
-		CoinsItems.COINS_1000 = create(1000);
-		CoinsItems.COINS_10000 = create(10000);
+		COINS_1 = create(1);
+		COINS_10 = create(10);
+		COINS_100 = create(100);
+		COINS_1000 = create(1000);
+		COINS_10000 = create(10000);
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -34,21 +44,24 @@ public class ItemCoins extends ItemLM
 	
 	public void onPostLoaded()
 	{
-		itemsAdded.add(CoinsItems.COINS_1);
-		itemsAdded.add(CoinsItems.COINS_10);
-		itemsAdded.add(CoinsItems.COINS_100);
-		itemsAdded.add(CoinsItems.COINS_1000);
-		itemsAdded.add(CoinsItems.COINS_10000);
+		itemsAdded.add(COINS_1);
+		itemsAdded.add(COINS_10);
+		itemsAdded.add(COINS_100);
+		itemsAdded.add(COINS_1000);
+		itemsAdded.add(COINS_10000);
 	}
 	
-	public ItemStack create(int i)
+	public ItemStack create(long i)
 	{
 		ItemStack is = new ItemStack(this);
 		NBTTagCompound tag = new NBTTagCompound();
-		tag.setInteger("Coins", i);
+		tag.setLong("Coins", i);
 		is.setTagCompound(tag);
 		return is;
 	}
+	
+	public ItemStack createRandom(Random r, int i)
+	{ return create(r.nextInt(i) + 1); }
 	
 	public long getCoins(ItemStack is)
 	{
@@ -76,11 +89,11 @@ public class ItemCoins extends ItemLM
 			String s = "iconcrack_" + Item.getIdFromItem(this);
 			ep.worldObj.spawnParticle(s, vec31.xCoord, vec31.yCoord, vec31.zCoord, vec3.xCoord, vec3.yCoord + 0.05D, vec3.zCoord);
 		}
-
+		
 		ep.playSound("random.break", 1F, 0.7F + w.rand.nextFloat() * 0.3F);
 		
 		long c = getCoins(is);
-		PlayerCoins.add(ep, c);
+		PlayerCoins.set(ep, PlayerCoins.get(ep) + c);
 		//LatCore.printChat(ep, "Added " + c + " coins");
 		
 		if(!ep.capabilities.isCreativeMode) is.stackSize--;

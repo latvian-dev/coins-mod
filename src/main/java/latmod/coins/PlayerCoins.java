@@ -20,12 +20,6 @@ public class PlayerCoins
 		tag.setLong(COINS_TAG, c);
 	}
 	
-	public static void add(EntityPlayer ep, long c)
-	{
-		if(ep == null || c <= 0) return;
-		set(ep, get(ep) + c);
-	}
-	
 	public static boolean take(EntityPlayer ep, long c, boolean doTake)
 	{
 		if(ep == null || c <= 0) return false;

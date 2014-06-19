@@ -32,7 +32,7 @@ public class Coins
 		mod = new LMMod(MODID);
 		config = new CoinsConfig(e);
 		
-		mod.addItem(CoinsItems.i_coins = new ItemCoins("coins"));
+		mod.addItem(ItemCoins.inst = new ItemCoins("coins"));
 		
 		mod.onPostLoaded();
 		
