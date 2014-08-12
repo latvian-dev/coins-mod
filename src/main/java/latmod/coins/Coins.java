@@ -8,7 +8,7 @@ import org.apache.logging.log4j.*;
 import cpw.mods.fml.common.*;
 import cpw.mods.fml.common.event.*;
 
-@Mod(modid = Coins.MODID, name = Coins.MODNAME, version = Coins.MODVERSION)
+@Mod(modid = Coins.MODID, name = Coins.MODNAME, version = Coins.MODVERSION, dependencies="required-after:LatCoreMC")
 public class Coins
 {
 	public static final String MODID = "coins";
@@ -23,8 +23,7 @@ public class Coins
 	
 	public static LMMod mod;
 	public static CoinsConfig config;
-	
-	public static Logger logger = LogManager.getLogger("Coins");
+	public static Logger logger = LogManager.getLogger("CoinsMod");
 	
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent e)

@@ -11,7 +11,7 @@ public class CoinsConfig extends LMConfig
 	
 	public CoinsConfig(FMLPreInitializationEvent e)
 	{
-		super(e, "/LatMod/Coins.cfg");
+		super(e, "/LatMod/CoinsMod.cfg");
 		
 		add(general = new General());
 	}
