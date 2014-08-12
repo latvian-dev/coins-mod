@@ -1,6 +1,6 @@
 package latmod.coins.commands;
-import latmod.coins.*;
-import latmod.core.*;
+import latmod.coins.Coins;
+import latmod.core.LatCore;
 import net.minecraft.command.*;
 import net.minecraft.entity.player.EntityPlayer;
 

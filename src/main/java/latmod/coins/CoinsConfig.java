@@ -1,9 +1,9 @@
 package latmod.coins;
-import net.minecraft.entity.*;
-import net.minecraft.entity.boss.*;
-import net.minecraft.entity.player.*;
-import cpw.mods.fml.common.event.*;
-import latmod.core.base.*;
+import latmod.core.mod.LMConfig;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.boss.IBossDisplayData;
+import net.minecraft.entity.player.EntityPlayer;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
 public class CoinsConfig extends LMConfig
 {

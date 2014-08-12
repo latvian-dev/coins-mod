@@ -5,4 +5,6 @@ coins:item.coins_p.name=Coins
 
 ### Lang ###
 
-coins:command.usage=/coins <subcommand>
+coins:command.usage.coins=/coins
+coins:command.usage.trade=/trade <Username>
+coins:command.usage.trade_accept=/trade_accept <Username>

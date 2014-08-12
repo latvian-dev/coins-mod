@@ -1,8 +1,10 @@
 package latmod.coins;
-import org.apache.logging.log4j.*;
-import net.minecraftforge.common.MinecraftForge;
 import latmod.coins.commands.*;
-import latmod.core.base.*;
+import latmod.core.mod.LMMod;
+import net.minecraftforge.common.MinecraftForge;
+
+import org.apache.logging.log4j.*;
+
 import cpw.mods.fml.common.*;
 import cpw.mods.fml.common.event.*;
 

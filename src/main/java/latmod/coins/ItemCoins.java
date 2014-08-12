@@ -1,14 +1,14 @@
 package latmod.coins;
 import java.util.Random;
 
+import latmod.core.mod.item.ItemLM;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.*;
-import net.minecraft.creativetab.*;
-import net.minecraft.entity.player.*;
-import net.minecraft.item.*;
-import net.minecraft.nbt.*;
-import net.minecraft.util.*;
-import net.minecraft.world.*;
-import latmod.core.base.*;
 
 public class ItemCoins extends ItemLM
 {
@@ -77,20 +77,7 @@ public class ItemCoins extends ItemLM
 	
 	public ItemStack onItemRightClick(ItemStack is, World w, EntityPlayer ep)
 	{
-		for (int j = 0; j < 20; ++j)
-		{
-			Vec3 vec3 = ep.worldObj.getWorldVec3Pool().getVecFromPool(((double)w.rand.nextFloat() - 0.5D) * 0.1D, Math.random() * 0.1D + 0.1D, 0.0D);
-			vec3.rotateAroundX(-ep.rotationPitch * (float)Math.PI / 180.0F);
-			vec3.rotateAroundY(-ep.rotationYaw * (float)Math.PI / 180.0F);
-			Vec3 vec31 = ep.worldObj.getWorldVec3Pool().getVecFromPool(((double)w.rand.nextFloat() - 0.5D) * 0.3D, (double)(-w.rand.nextFloat()) * 0.6D - 0.3D, 0.6D);
-			vec31.rotateAroundX(-ep.rotationPitch * (float)Math.PI / 180.0F);
-			vec31.rotateAroundY(-ep.rotationYaw * (float)Math.PI / 180.0F);
-			vec31 = vec31.addVector(ep.posX, ep.posY + (double)ep.getEyeHeight(), ep.posZ);
-			String s = "iconcrack_" + Item.getIdFromItem(this);
-			ep.worldObj.spawnParticle(s, vec31.xCoord, vec31.yCoord, vec31.zCoord, vec3.xCoord, vec3.yCoord + 0.05D, vec3.zCoord);
-		}
-		
-		ep.playSound("random.break", 1F, 0.7F + w.rand.nextFloat() * 0.3F);
+		ep.renderBrokenItemStack(is);
 		
 		long c = getCoins(is);
 		PlayerCoins.set(ep, PlayerCoins.get(ep) + c);

@@ -1,9 +1,8 @@
 package latmod.coins;
-import latmod.core.InvUtils;
-import latmod.core.LMUtils;
+import latmod.core.*;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.event.entity.living.*;
-import net.minecraftforge.event.entity.player.*;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import cpw.mods.fml.common.eventhandler.*;
 
 public class CoinsEventHandlers

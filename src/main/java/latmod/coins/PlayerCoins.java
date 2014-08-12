@@ -1,6 +1,6 @@
 package latmod.coins;
-import net.minecraft.entity.player.*;
-import net.minecraft.nbt.*;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
 
 public class PlayerCoins
 {
