@@ -7,7 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 public class CmdSetcoins extends CommandBase
 {
 	public int getRequiredPermissionLevel()
-	{ return PermLevel.OP.level; }
+	{ return 2; }
 	
 	public String getCommandName()
 	{ return "setcoins"; }

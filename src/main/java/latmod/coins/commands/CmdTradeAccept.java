@@ -7,7 +7,10 @@ import net.minecraft.entity.player.EntityPlayer;
 public class CmdTradeAccept extends CommandBase
 {
 	public int getRequiredPermissionLevel()
-	{ return PermLevel.PLAYER.level; }
+	{ return 0; }
+	
+	public boolean canCommandSenderUseCommand(ICommandSender p_71519_1_)
+	{ return true; }
 	
 	public String getCommandName()
 	{ return "trade_accept"; }

@@ -1,12 +1,15 @@
 package latmod.coins;
 import latmod.core.*;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import cpw.mods.fml.common.eventhandler.*;
+import cpw.mods.fml.relauncher.*;
 
 public class CoinsEventHandlers
 {
+	//FIXME: Only player kills should drop coins
 	@SubscribeEvent
 	public void onEntityLivingDrops(LivingDeathEvent e)
 	{
@@ -57,4 +60,14 @@ public class CoinsEventHandlers
 			}
 		}
 	}
+	
+	@SideOnly(Side.CLIENT)
+    @SubscribeEvent
+    public void onRenderGameOverlayPre(RenderGameOverlayEvent.Pre event)
+    {
+		if(event.type == RenderGameOverlayEvent.ElementType.CROSSHAIRS)
+		{
+			// Render coins
+		}
+    }
 }
