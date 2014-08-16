@@ -1,7 +1,7 @@
 package latmod.coins;
 import latmod.coins.commands.*;
 import latmod.coins.game.*;
-import latmod.core.mod.LMMod;
+import latmod.core.mod.*;
 import net.minecraftforge.common.MinecraftForge;
 
 import org.apache.logging.log4j.*;
@@ -9,11 +9,10 @@ import org.apache.logging.log4j.*;
 import cpw.mods.fml.common.*;
 import cpw.mods.fml.common.event.*;
 
-@Mod(modid = Coins.MODID, name = Coins.MODNAME, version = Coins.MODVERSION, dependencies="required-after:LatCoreMC")
+@Mod(modid = Coins.MODID, name = "Coins Mod", version = Coins.MODVERSION, dependencies="required-after:LatCoreMC")
 public class Coins
 {
 	public static final String MODID = "CoinsMod";
-	public static final String MODNAME = "Coins Mod";
 	public static final String MODVERSION = "1.0.0";
 	
 	@Mod.Instance(Coins.MODID)
@@ -49,6 +48,8 @@ public class Coins
 	@Mod.EventHandler
 	public void init(FMLInitializationEvent e)
 	{
+		LC.versionsToCheck.put(MODID, MODVERSION);
+		
 		proxy.init();
 	}
 
