@@ -46,14 +46,14 @@ public class RenderTrade extends TileEntitySpecialRenderer
 			
 			{
 				GL11.glPushMatrix();
-				GL11.glTranslatef(0.5F, 0.5F, -0.005F);
+				GL11.glTranslatef(0.5F, 0.7F, -0.005F);
 				GL11.glColor4f(1F, 1F, 1F, 1F);
 				
 				//float iS = 1F / 6F;
 				//GL11.glScalef(-1F, -1F, 1F);
 				
-				EntityItem entityitem = new EntityItem(t.getWorldObj(), 0.0D, 0.0D, 0.0D, InvUtils.singleCopy(t.tradeItem));
-				entityitem.hoverStart = 0.0F;
+				EntityItem entityitem = new EntityItem(t.getWorldObj(), 0D, 0D, 0D, InvUtils.singleCopy(t.tradeItem));
+				entityitem.hoverStart = 0F;
 				
 				//GL11.glTranslatef(-0.453125F * (float)Direction.offsetX[p_82402_1_.hangingDirection], -0.18F, -0.453125F * (float)Direction.offsetZ[p_82402_1_.hangingDirection]);
 				GL11.glRotatef(180F, 0F, 1F, 0F);
@@ -65,7 +65,9 @@ public class RenderTrade extends TileEntitySpecialRenderer
 				else if(t.rotation == 4) rotYaw = 90F;
 				else if(t.rotation == 5) rotYaw = -90F;
 				*/
-				GL11.glRotatef(rotYaw, 0F, 0F, 1F);
+				//GL11.glRotatef(rotYaw, 0F, 0F, 1F);
+				
+				GL11.glScalef(-1F, -1F, 1F);
 				
 				entityItem.worldObj = t.getWorldObj();
 				entityItem.setEntityItemStack(t.tradeItem);
@@ -84,16 +86,21 @@ public class RenderTrade extends TileEntitySpecialRenderer
 			GL11.glDisable(GL11.GL_LIGHTING);
 			
 			{
-				double d = 1D / 64D;
-				
 				GL11.glPushMatrix();
 				GL11.glTranslatef(0.5F, 0.15F, -0.005F);
-				GL11.glScaled(d, d, d);
 				GL11.glColor4f(1F, 1F, 1F, 1F);
 				
 				String s1 = t.tradeItem.getDisplayName();
 				
+				if(t.tradeItem.stackSize > 1)
+					s1 = t.tradeItem.stackSize + " x " + s1;
+				
 				int ss = func_147498_b().getStringWidth(s1);
+				
+				double d = 1D / Math.max((ss + 10), 64);
+				
+				GL11.glScaled(d, d, d);
+				
 				func_147498_b().drawString(s1, -ss / 2, 0, 0xFFD1D1D1);
 				GL11.glPopMatrix();
 			}
