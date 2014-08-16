@@ -1,5 +1,6 @@
 package latmod.coins;
 import latmod.coins.commands.*;
+import latmod.coins.game.*;
 import latmod.core.mod.LMMod;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -11,7 +12,7 @@ import cpw.mods.fml.common.event.*;
 @Mod(modid = Coins.MODID, name = Coins.MODNAME, version = Coins.MODVERSION, dependencies="required-after:LatCoreMC")
 public class Coins
 {
-	public static final String MODID = "coins";
+	public static final String MODID = "CoinsMod";
 	public static final String MODNAME = "Coins Mod";
 	public static final String MODVERSION = "1.0.0";
 	
@@ -32,6 +33,8 @@ public class Coins
 		
 		mod = new LMMod(MODID);
 		config = new CoinsConfig(e);
+		
+		mod.addBlock(BlockTrade.inst = new BlockTrade("tradeBlock"));
 		
 		mod.addItem(ItemCoins.inst = new ItemCoins("coins"));
 		
@@ -61,7 +64,6 @@ public class Coins
 	{
 		e.registerServerCommand(new CmdCoins());
 		e.registerServerCommand(new CmdSetcoins());
-		e.registerServerCommand(new CmdTrade());
-		e.registerServerCommand(new CmdTradeAccept());
+		e.registerServerCommand(new CmdSetTrade());
 	}
 }

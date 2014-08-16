@@ -1,6 +1,7 @@
-package latmod.coins;
+package latmod.coins.game;
 import java.util.Random;
 
+import latmod.coins.*;
 import latmod.core.mod.item.ItemLM;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;

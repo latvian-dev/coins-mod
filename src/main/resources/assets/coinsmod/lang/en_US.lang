@@ -1,0 +1,11 @@
+### Items ###
+
+coinsmod:item.coins.name=Coin
+coinsmod:item.coins_p.name=Coins
+coinsmod:tile.tradeBlock.name=Trade Block
+
+### Lang ###
+
+coins:command.usage.coins=/coins
+coins:command.usage.setcoins=/setcoins <coins>
+coins:command.usage.settrade=/settrade <coins> <can sell>

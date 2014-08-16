@@ -1,11 +1,12 @@
 package latmod.coins;
+import latmod.coins.game.ItemCoins;
 import latmod.core.*;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraft.util.EntityDamageSource;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import cpw.mods.fml.common.eventhandler.*;
-import cpw.mods.fml.relauncher.*;
 
 public class CoinsEventHandlers
 {
@@ -15,17 +16,20 @@ public class CoinsEventHandlers
 	{
 		if(Coins.config.general.mobsDropCoins && !e.entity.worldObj.isRemote)
 		{
-			if(e.entity.worldObj.rand.nextInt(Coins.config.general.coinDropRarity) != 0) return;
-			
-			int max = Coins.config.getMaxDroppedCoinsFor(e.entityLiving);
-			
-			if(max <= 0) return;
-			
-			int l = e.entity.worldObj.rand.nextInt(max) + 1;
-			
-			if(l <= 0) return;
-			
-			LMUtils.dropItem(e.entity, ItemCoins.inst.create(l));
+			if(e.source != null && e.source instanceof EntityDamageSource && ((EntityDamageSource)e.source).getEntity() instanceof EntityPlayer)
+			{
+				if(e.entity.worldObj.rand.nextInt(Coins.config.general.coinDropRarity) != 0) return;
+				
+				int max = Coins.config.getMaxDroppedCoinsFor(e.entityLiving);
+				
+				if(max <= 0) return;
+				
+				int l = e.entity.worldObj.rand.nextInt(max) + 1;
+				
+				if(l <= 0) return;
+				
+				LMUtils.dropItem(e.entity, ItemCoins.inst.create(l));
+			}
 		}
 	}
 	
@@ -60,14 +64,4 @@ public class CoinsEventHandlers
 			}
 		}
 	}
-	
-	@SideOnly(Side.CLIENT)
-    @SubscribeEvent
-    public void onRenderGameOverlayPre(RenderGameOverlayEvent.Pre event)
-    {
-		if(event.type == RenderGameOverlayEvent.ElementType.CROSSHAIRS)
-		{
-			// Render coins
-		}
-    }
 }

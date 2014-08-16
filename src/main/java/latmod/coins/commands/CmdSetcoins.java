@@ -6,11 +6,11 @@ import net.minecraft.entity.player.EntityPlayer;
 
 public class CmdSetcoins extends CommandBase
 {
-	public int getRequiredPermissionLevel()
-	{ return 2; }
-	
 	public String getCommandName()
 	{ return "setcoins"; }
+	
+	public int getRequiredPermissionLevel()
+	{ return 2; }
 	
 	public String getCommandUsage(ICommandSender ics)
 	{ return Coins.mod.assets + "command.usage.setcoins"; }
