@@ -10,7 +10,6 @@ import cpw.mods.fml.common.eventhandler.*;
 
 public class CoinsEventHandlers
 {
-	//FIXME: Only player kills should drop coins
 	@SubscribeEvent
 	public void onEntityLivingDrops(LivingDeathEvent e)
 	{

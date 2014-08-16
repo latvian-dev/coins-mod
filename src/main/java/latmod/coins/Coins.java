@@ -1,6 +1,7 @@
 package latmod.coins;
 import latmod.coins.commands.*;
 import latmod.coins.game.*;
+import latmod.core.apis.WailaHelper;
 import latmod.core.mod.*;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -13,13 +14,13 @@ import cpw.mods.fml.common.event.*;
 public class Coins
 {
 	public static final String MODID = "CoinsMod";
-	public static final String MODVERSION = "1.0.0";
+	public static final String MODVERSION = "1.0.1";
 	
 	@Mod.Instance(Coins.MODID)
 	public static Coins inst;
 	
 	@SidedProxy(clientSide = "latmod.coins.CoinsClient", serverSide = "latmod.coins.CoinsCommon")
-	public static CoinsCommon proxy; // CoinsClient
+	public static CoinsCommon proxy;
 	
 	public static LMMod mod;
 	public static CoinsConfig config;
@@ -56,6 +57,9 @@ public class Coins
 	@Mod.EventHandler
 	public void postInit(FMLPostInitializationEvent e)
 	{
+		try { WailaHelper.registerDataProvider(TileTrade.class, new WailaTrade()); }
+		catch(Exception ex) {}
+		
 		mod.loadRecipes();
 		proxy.postInit();
 	}

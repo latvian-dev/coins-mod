@@ -75,8 +75,22 @@ public class TileTrade extends TileLM
 				LatCore.printChat(ep, "This item is for free, you can't sell that!");
 				return;
 			}
+			
+			int neededSize = tradeItem.stackSize;
+			
+			for(int i = 0; i < ep.inventory.mainInventory.length; i++)
+			{
+				if(InvUtils.itemsEquals(ep.inventory.mainInventory[i], tradeItem, false, true))
+					neededSize -= ep.inventory.mainInventory[i].stackSize;
+				
+				if(neededSize <= 0) break;
+			}
+			
+			if(neededSize <= 0)
+			{
+				InvUtils.reduceItemInInv(ep.inventory, InvUtils.getPlayerSlots(ep), tradeItem, tradeItem.stackSize);
+				PlayerCoins.set(ep, PlayerCoins.get(ep) + price);
+			}
 		}
-		
-		return;
 	}
 }
