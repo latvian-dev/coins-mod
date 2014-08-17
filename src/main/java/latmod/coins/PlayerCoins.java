@@ -1,10 +1,14 @@
 package latmod.coins;
-import net.minecraft.entity.player.EntityPlayer;
+import latmod.core.LatCore;
+import latmod.core.mod.net.*;
+import net.minecraft.entity.player.*;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class PlayerCoins
 {
 	public static final String COINS_TAG = "LM_Coins";
+	public static final String COINS_CHANNEL = Coins.MODID;
+	public static final String ACTION_COINS_CHANGED = "changed";
 	
 	public static long get(EntityPlayer ep)
 	{
@@ -16,8 +20,21 @@ public class PlayerCoins
 	public static void set(EntityPlayer ep, long c)
 	{
 		if(ep == null) return;
-		NBTTagCompound tag = ep.getEntityData();
-		tag.setLong(COINS_TAG, c);
+		
+		long c0 = get(ep);
+		
+		if(c0 != c)
+		{
+			NBTTagCompound tag = ep.getEntityData();
+			tag.setLong(COINS_TAG, c);
+			
+			if(LatCore.canUpdate() && ep instanceof EntityPlayerMP)
+			{
+				NBTTagCompound tag1 = new NBTTagCompound();
+				tag1.setLong("Coins", c);
+				LMNetHandler.INSTANCE.sendTo(new MessageCustomServerAction(COINS_CHANNEL, ACTION_COINS_CHANGED, tag1), (EntityPlayerMP)ep);
+			}
+		}
 	}
 	
 	public static boolean take(EntityPlayer ep, long c, boolean doTake)

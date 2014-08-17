@@ -15,17 +15,27 @@ public class WailaTrade extends BasicWailaHandler
 	
 	public List<String> getWailaBody(ItemStack is, List<String> l, IWailaDataAccessor data, IWailaConfigHandler config)
 	{
-		TileTrade t = (TileTrade)data.getTileEntity();
+		TileTrade t = (TileTrade) data.getTileEntity();
 		
 		if(t != null && !t.isInvalid() && t.tradeItem != null)
 		{
-			String s = t.tradeItem.getDisplayName();
-			if(t.tradeItem.stackSize > 1)
-				s = t.tradeItem.stackSize + " x " + s;
-			
-			l.add(s);
-			l.add("For " + t.price + " coins");
-			l.add("Can sell: " + t.canSell);
+			if(t.price < 0)
+			{
+				l.add(t.tradeItem.getDisplayName());
+			}
+			else
+			{
+				String s = t.tradeItem.getDisplayName();
+				if(t.tradeItem.stackSize > 1)
+					s = t.tradeItem.stackSize + " x " + s;
+				
+				l.add(s);
+				if(t.price == 0)
+					l.add("For free");
+				else
+					l.add("For " + t.price + " coins");
+				l.add("Can sell: " + t.canSell);
+			}
 		}
 		
 		return l;

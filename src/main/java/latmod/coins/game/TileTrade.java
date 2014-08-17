@@ -47,11 +47,13 @@ public class TileTrade extends TileLM
 	{
 		if(worldObj.isRemote) return true;
 		
+		if(price < 0) return true;
+		
 		if(tradeItem != null && tradeItem.getItem() != null)
 		{
 			if(price != 0)
 			{
-				if(!PlayerCoins.take(ep, price, true))
+				if(!ep.capabilities.isCreativeMode && !PlayerCoins.take(ep, price, true))
 				{
 					LatCore.printChat(ep, "You can't afford that!");
 					return true;
@@ -68,6 +70,8 @@ public class TileTrade extends TileLM
 	{
 		if(worldObj.isRemote) return;
 		
+		if(price <= 0) return;
+		
 		if(tradeItem != null && tradeItem.getItem() != null && canSell)
 		{
 			if(price == 0)
@@ -80,7 +84,7 @@ public class TileTrade extends TileLM
 			
 			for(int i = 0; i < ep.inventory.mainInventory.length; i++)
 			{
-				if(InvUtils.itemsEquals(ep.inventory.mainInventory[i], tradeItem, false, true))
+				if(ep.inventory.mainInventory[i] != null && InvUtils.itemsEquals(ep.inventory.mainInventory[i], tradeItem, false, true))
 					neededSize -= ep.inventory.mainInventory[i].stackSize;
 				
 				if(neededSize <= 0) break;

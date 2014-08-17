@@ -1,15 +1,26 @@
 package latmod.coins;
 import latmod.coins.game.ItemCoins;
 import latmod.core.*;
+import latmod.core.mod.net.ICustomActionHandler;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EntityDamageSource;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.*;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
-import cpw.mods.fml.common.eventhandler.*;
 
-public class CoinsEventHandlers
+import org.lwjgl.opengl.GL11;
+
+import cpw.mods.fml.common.eventhandler.*;
+import cpw.mods.fml.relauncher.*;
+
+public class CoinsEventHandlers implements ICustomActionHandler
 {
+	public int coinsAlpha = 0;
+	public long clientCoins = 0L;
+	
 	@SubscribeEvent
 	public void onEntityLivingDrops(LivingDeathEvent e)
 	{
@@ -61,6 +72,33 @@ public class CoinsEventHandlers
 					}
 				}
 			}
+		}
+	}
+	
+	@SideOnly(Side.CLIENT)
+	@SubscribeEvent
+	public void renderCoinsIngame(RenderGameOverlayEvent.Pre e)
+	{
+		if(coinsAlpha > 0 && e.type == RenderGameOverlayEvent.ElementType.CHAT)
+		{
+			GL11.glColor4f(1F, 1F, 1F, 1F);
+			
+			Minecraft mc = Minecraft.getMinecraft();
+			
+			coinsAlpha--;
+			
+			int col1 = (coinsAlpha << 24) | (255 << 16) | (200 << 8);
+			
+			mc.fontRenderer.drawString(EnumChatFormatting.BOLD + "" + EnumChatFormatting.ITALIC + "Coins: " + clientCoins, 4, e.resolution.getScaledHeight() - 12, col1);
+		}
+	}
+
+	public void onAction(EntityPlayer ep, String channel, String action, NBTTagCompound extraData, Side s)
+	{
+		if(action.equals(PlayerCoins.ACTION_COINS_CHANGED))
+		{
+			coinsAlpha = 255;
+			clientCoins = extraData.getLong("Coins");
 		}
 	}
 }
