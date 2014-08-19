@@ -2,25 +2,32 @@ package latmod.coins.game;
 
 import latmod.coins.PlayerCoins;
 import latmod.core.*;
-import latmod.core.mod.tile.TileLM;
+import latmod.core.mod.tile.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class TileTrade extends TileLM
+public class TileTrade extends TileLM implements IPaintable
 {
 	public ItemStack tradeItem;
+	private ItemStack paintItem;
 	public int price;
 	public byte rotation;
 	public boolean canSell;
+	public boolean canBuy;
 	
 	public void readTileData(NBTTagCompound tag)
 	{
 		if(!tag.hasKey("Item")) tradeItem = null; else
 			tradeItem = ItemStack.loadItemStackFromNBT(tag.getCompoundTag("Item"));
+		
+		if(!tag.hasKey("Paint")) paintItem = null;
+			paintItem = ItemStack.loadItemStackFromNBT(tag.getCompoundTag("Paint"));
+		
 		price = tag.getInteger("Price");
 		rotation = tag.getByte("Rot");
 		canSell = tag.getBoolean("CanSell");
+		canBuy = tag.getBoolean("CanBuy");
 	}
 	
 	public void writeTileData(NBTTagCompound tag)
@@ -32,9 +39,17 @@ public class TileTrade extends TileLM
 			tag.setTag("Item", tag1);
 		}
 		
+		if(paintItem != null)
+		{
+			NBTTagCompound tag1 = new NBTTagCompound();
+			paintItem.writeToNBT(tag1);
+			tag.setTag("Paint", tag1);
+		}
+		
 		tag.setInteger("Price", price);
 		tag.setByte("Rot", rotation);
 		tag.setBoolean("CanSell", canSell);
+		tag.setBoolean("CanBuy", canBuy);
 	}
 	
 	public void onPlacedBy(EntityPlayer ep, ItemStack is)
@@ -51,6 +66,12 @@ public class TileTrade extends TileLM
 		
 		if(tradeItem != null && tradeItem.getItem() != null)
 		{
+			if(!canBuy)
+			{
+				LatCore.printChat(ep, "This item can't be bought!");
+				return true;
+			}
+			
 			if(price != 0)
 			{
 				if(!ep.capabilities.isCreativeMode && !PlayerCoins.take(ep, price, true))
@@ -96,5 +117,22 @@ public class TileTrade extends TileLM
 				PlayerCoins.set(ep, PlayerCoins.get(ep) + price);
 			}
 		}
+	}
+	
+	public ItemStack getPaint()
+	{ return paintItem; }
+	
+	public boolean setPaint(ItemStack is, EntityPlayer ep)
+	{
+		if(ep != null && !ep.capabilities.isCreativeMode) return false;
+		
+		if(paintItem == null || is == null || !paintItem.isItemEqual(is))
+		{
+			paintItem = is;
+			markDirty();
+			return true;
+		}
+		
+		return false;
 	}
 }

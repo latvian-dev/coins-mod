@@ -1,12 +1,15 @@
 package latmod.coins.game;
 
 import latmod.coins.Coins;
+import latmod.core.client.LatCoreClient;
 import latmod.core.mod.block.BlockLM;
 import latmod.core.mod.tile.TileLM;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.world.World;
+import net.minecraft.util.IIcon;
+import net.minecraft.world.*;
+import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.*;
 
 public class BlockTrade extends BlockLM
@@ -36,4 +39,17 @@ public class BlockTrade extends BlockLM
 	
 	public boolean isOpaqueCube()
 	{ return false; }
+	
+	public boolean renderAsNormalBlock()
+	{ return false; }
+	
+	@SideOnly(Side.CLIENT)
+	public IIcon getIcon(IBlockAccess iba, int x, int y, int z, int s)
+	{ return LatCoreClient.blockNullIcon; }
+	
+	public boolean isBlockSolid(IBlockAccess iba, int x, int y, int z, int side)
+	{ return true; }
+	
+	public boolean isSideSolid(IBlockAccess iba, int x, int y, int z, ForgeDirection side)
+	{ return true; }
 }

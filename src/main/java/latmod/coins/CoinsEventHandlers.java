@@ -1,6 +1,7 @@
 package latmod.coins;
 import latmod.coins.game.ItemCoins;
 import latmod.core.*;
+import latmod.core.client.LMRenderer;
 import latmod.core.mod.net.ICustomActionHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,6 +21,7 @@ public class CoinsEventHandlers implements ICustomActionHandler
 {
 	public int coinsAlpha = 0;
 	public long clientCoins = 0L;
+	public long prevCoins = 0L;
 	
 	@SubscribeEvent
 	public void onEntityLivingDrops(LivingDeathEvent e)
@@ -87,9 +89,9 @@ public class CoinsEventHandlers implements ICustomActionHandler
 			
 			coinsAlpha--;
 			
-			int col1 = (coinsAlpha << 24) | (255 << 16) | (200 << 8);
+			int col1 = LMRenderer.getColor((clientCoins > prevCoins) ? EnumDyeColor.LIME.color : EnumDyeColor.RED.color, coinsAlpha);
 			
-			mc.fontRenderer.drawString(EnumChatFormatting.BOLD + "" + EnumChatFormatting.ITALIC + "Coins: " + clientCoins, 4, e.resolution.getScaledHeight() - 12, col1);
+			mc.fontRenderer.drawString(EnumChatFormatting.BOLD + "Coins: " + clientCoins, 4, e.resolution.getScaledHeight() - 12, col1);
 		}
 	}
 
@@ -98,6 +100,7 @@ public class CoinsEventHandlers implements ICustomActionHandler
 		if(action.equals(PlayerCoins.ACTION_COINS_CHANGED))
 		{
 			coinsAlpha = 255;
+			prevCoins = clientCoins;
 			clientCoins = extraData.getLong("Coins");
 		}
 	}

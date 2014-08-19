@@ -1,10 +1,13 @@
 package latmod.coins.game;
 
 import latmod.core.InvUtils;
+import net.minecraft.block.Block;
+import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.entity.*;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.item.*;
 import net.minecraft.tileentity.TileEntity;
 
 import org.lwjgl.opengl.GL11;
@@ -15,22 +18,38 @@ import cpw.mods.fml.relauncher.*;
 public class RenderTrade extends TileEntitySpecialRenderer
 {
 	public EntityItem entityItem = null;
+	public RenderBlocks renderBlocks = new RenderBlocks();
 	
 	public RenderTrade()
 	{
 	}
 	
-	public void renderTileEntityAt(TileEntity te, double rx, double ry, double rz, float pt)
+	public void renderTileEntityAt(TileEntity te, double tx, double ty, double tz, float pt)
 	{
 		if(te == null || te.isInvalid()) return;
 		TileTrade t = (TileTrade)te;
+		
+		GL11.glColor4f(1F, 1F, 1F, 1F);
+		
+		GL11.glDisable(GL11.GL_LIGHTING);
+		GL11.glPushMatrix();
+		GL11.glTranslated(tx + 0.5D, ty + 0.5D, tz + 0.5D);
+		ItemStack tex = t.getPaint();
+		if(tex == null) tex = new ItemStack(t.blockType);
+		bindTexture(TextureMap.locationBlocksTexture);
+		renderBlocks.blockAccess = t.getWorldObj();
+		renderBlocks.clearOverrideBlockTexture();
+		renderBlocks.setRenderBounds(0D, 0D, 0D, 1D, 1D, 1D);
+		renderBlocks.renderBlockSandFalling(Block.getBlockFromItem(tex.getItem()), t.getWorldObj(), t.xCoord, t.yCoord, t.zCoord, tex.getItemDamage());
+		GL11.glPopMatrix();
+		GL11.glEnable(GL11.GL_LIGHTING);
 		
 		if(t.tradeItem != null && t.tradeItem.getItem() != null)
 		{
 			if(entityItem == null) entityItem = new EntityItem(te.getWorldObj(), 0D, 0D, 0D, t.tradeItem);
 			
 			GL11.glPushMatrix();
-			GL11.glTranslated(rx, ry + 1D, rz + 1D);
+			GL11.glTranslated(tx, ty + 1D, tz + 1D);
 			GL11.glScalef(1F, -1F, -1F);
 			
 			float rotYaw = 0F;
@@ -70,7 +89,7 @@ public class RenderTrade extends TileEntitySpecialRenderer
 				GL11.glPopMatrix();
 			}
 			
-			if(t.price >= 0)
+			if(t.price >= 0 && (t.canBuy || t.canSell))
 			{
 				GL11.glDisable(GL11.GL_LIGHTING);
 				

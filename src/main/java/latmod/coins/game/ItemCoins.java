@@ -2,6 +2,7 @@ package latmod.coins.game;
 import java.util.Random;
 
 import latmod.coins.*;
+import latmod.core.mod.LMMod;
 import latmod.core.mod.item.ItemLM;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,7 +24,7 @@ public class ItemCoins extends ItemLM
 	
 	public ItemCoins(String s)
 	{
-		super(Coins.mod, s);
+		super(s);
 		setMaxStackSize(1);
 		
 		COINS_1 = create(1);
@@ -32,6 +33,9 @@ public class ItemCoins extends ItemLM
 		COINS_1000 = create(1000);
 		COINS_10000 = create(10000);
 	}
+	
+	public LMMod getMod()
+	{ return Coins.mod; }
 	
 	@SideOnly(Side.CLIENT)
 	public CreativeTabs getCreativeTab()

@@ -28,12 +28,19 @@ public class CmdSetTrade extends CommandBase
 		EntityPlayer ep = (EntityPlayer)ics;
 		if(ep.worldObj.isRemote) return;
 		
+		if(args == null || args.length == 0)
+		{
+			LatCore.printChat(ics, "/settrade <price> <canSell> [canBuy]");
+			return;
+		}
+		
 		if(ep.capabilities.isCreativeMode)
 		{
-			if(args.length == 2)
+			if(args.length >= 2)
 			{
-				int coins = parseInt(ics, args[0]);
-				boolean sell = parseBoolean(ics, args[1]);
+				int price = parseInt(ics, args[0]);
+				boolean canSell = parseBoolean(ics, args[1]);
+				boolean canBuy = (args.length >= 3) ? parseBoolean(ics, args[2]) : true;
 				ItemStack item = ep.getHeldItem();
 				
 				if(item != null)
@@ -49,8 +56,9 @@ public class CmdSetTrade extends CommandBase
 							TileTrade t = (TileTrade)te;
 							
 							t.tradeItem = item.copy();
-							t.price = coins;
-							t.canSell = sell;
+							t.price = price;
+							t.canSell = canSell;
+							t.canBuy = canBuy;
 							t.markDirty();
 							
 							LatCore.printChat(ics, "Trade item set");
@@ -61,7 +69,7 @@ public class CmdSetTrade extends CommandBase
 				}
 				else LatCore.printChat(ics, "Item can't be null!");
 			}
-			else LatCore.printChat(ics, "Invalid argument count!");
+			else processCommand(ics, null);
 		}
 		else LatCore.printChat(ics, "You must be in Creative mode!");
 	}
