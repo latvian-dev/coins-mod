@@ -40,7 +40,7 @@ public class CoinsEventHandlers implements ICustomActionHandler
 				
 				if(l <= 0) return;
 				
-				LMUtils.dropItem(e.entity, ItemCoins.inst.create(l));
+				InvUtils.dropItem(e.entity, ItemCoins.inst.create(l));
 			}
 		}
 	}

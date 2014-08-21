@@ -30,7 +30,7 @@ public class CmdSetTrade extends CommandBase
 		
 		if(args == null || args.length == 0)
 		{
-			LatCore.printChat(ics, "/settrade <price> <canSell> [canBuy]");
+			LatCoreMC.printChat(ics, "/settrade <price> <canSell> [canBuy]");
 			return;
 		}
 		
@@ -45,7 +45,7 @@ public class CmdSetTrade extends CommandBase
 				
 				if(item != null)
 				{
-					MovingObjectPosition mop = LMUtils.rayTrace(ep, 4D);
+					MovingObjectPosition mop = LatCoreMC.rayTrace(ep, 4D);
 					
 					if(mop != null && mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
 					{
@@ -61,16 +61,16 @@ public class CmdSetTrade extends CommandBase
 							t.canBuy = canBuy;
 							t.markDirty();
 							
-							LatCore.printChat(ics, "Trade item set");
+							LatCoreMC.printChat(ics, "Trade item set");
 						}
-						else LatCore.printChat(ics, "Tile is not Trading Block!");
+						else LatCoreMC.printChat(ics, "Tile is not Trading Block!");
 					}
-					else LatCore.printChat(ics, "Tile can't be null!");
+					else LatCoreMC.printChat(ics, "Tile can't be null!");
 				}
-				else LatCore.printChat(ics, "Item can't be null!");
+				else LatCoreMC.printChat(ics, "Item can't be null!");
 			}
 			else processCommand(ics, null);
 		}
-		else LatCore.printChat(ics, "You must be in Creative mode!");
+		else LatCoreMC.printChat(ics, "You must be in Creative mode!");
 	}
 }

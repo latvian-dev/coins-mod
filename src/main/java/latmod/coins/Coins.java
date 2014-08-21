@@ -15,7 +15,7 @@ import cpw.mods.fml.common.event.*;
 public class Coins
 {
 	public static final String MODID = "CoinsMod";
-	public static final String MODVERSION = "1.0.2";
+	public static final String MODVERSION = "1.0.3";
 	
 	@Mod.Instance(Coins.MODID)
 	public static Coins inst;

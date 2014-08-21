@@ -1,5 +1,5 @@
 package latmod.coins;
-import latmod.core.LatCore;
+import latmod.core.LatCoreMC;
 import latmod.core.mod.net.*;
 import net.minecraft.entity.player.*;
 import net.minecraft.nbt.NBTTagCompound;
@@ -28,7 +28,7 @@ public class PlayerCoins
 			NBTTagCompound tag = ep.getEntityData();
 			tag.setLong(COINS_TAG, c);
 			
-			if(LatCore.canUpdate() && ep instanceof EntityPlayerMP)
+			if(LatCoreMC.canUpdate() && ep instanceof EntityPlayerMP)
 			{
 				NBTTagCompound tag1 = new NBTTagCompound();
 				tag1.setLong("Coins", c);

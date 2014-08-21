@@ -19,7 +19,7 @@ public class WailaTrade extends BasicWailaHandler
 		
 		if(t != null && !t.isInvalid() && t.tradeItem != null)
 		{
-			if(t.price < 0)
+			if(t.price < 0 || (!t.canBuy && !t.canSell))
 			{
 				l.add(t.tradeItem.getDisplayName());
 			}
@@ -34,7 +34,7 @@ public class WailaTrade extends BasicWailaHandler
 					l.add("For free");
 				else
 					l.add("For " + t.price + " coins");
-				l.add("Can sell: " + t.canSell);
+				l.add("Can Buy | Sell: " + t.canBuy + " | " + t.canSell);
 			}
 		}
 		

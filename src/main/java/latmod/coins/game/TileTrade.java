@@ -55,7 +55,7 @@ public class TileTrade extends TileLM implements IPaintable
 	public void onPlacedBy(EntityPlayer ep, ItemStack is)
 	{
 		super.onPlacedBy(ep, is);
-		rotation = (byte)LMUtils.get2DRotation(ep).ordinal();
+		rotation = (byte)LatCoreMC.get2DRotation(ep).ordinal();
 	}
 	
 	public boolean onRightClick(EntityPlayer ep, ItemStack is, int side, float x, float y, float z)
@@ -68,7 +68,7 @@ public class TileTrade extends TileLM implements IPaintable
 		{
 			if(!canBuy)
 			{
-				LatCore.printChat(ep, "This item can't be bought!");
+				LatCoreMC.printChat(ep, "This item can't be bought!");
 				return true;
 			}
 			
@@ -76,12 +76,12 @@ public class TileTrade extends TileLM implements IPaintable
 			{
 				if(!ep.capabilities.isCreativeMode && !PlayerCoins.take(ep, price, true))
 				{
-					LatCore.printChat(ep, "You can't afford that!");
+					LatCoreMC.printChat(ep, "You can't afford that!");
 					return true;
 				}
 			}
 			
-			LMUtils.dropItem(ep, tradeItem);
+			InvUtils.dropItem(ep, tradeItem);
 		}
 		
 		return true;
@@ -97,7 +97,7 @@ public class TileTrade extends TileLM implements IPaintable
 		{
 			if(price == 0)
 			{
-				LatCore.printChat(ep, "This item is for free, you can't sell that!");
+				LatCoreMC.printChat(ep, "This item is for free, you can't sell that!");
 				return;
 			}
 			

@@ -1,6 +1,6 @@
 package latmod.coins.commands;
 import latmod.coins.*;
-import latmod.core.LatCore;
+import latmod.core.LatCoreMC;
 import net.minecraft.command.*;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -23,6 +23,6 @@ public class CmdCoins extends CommandBase
 		if(!(ics instanceof EntityPlayer)) return;
 		EntityPlayer ep = (EntityPlayer)ics;
 		
-		LatCore.printChat(ics, "Coins: " + PlayerCoins.get(ep));
+		LatCoreMC.printChat(ics, "Coins: " + PlayerCoins.get(ep));
 	}
 }

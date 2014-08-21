@@ -1,6 +1,6 @@
 package latmod.coins.commands;
 import latmod.coins.*;
-import latmod.core.LatCore;
+import latmod.core.LatCoreMC;
 import net.minecraft.command.*;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -28,8 +28,8 @@ public class CmdSetcoins extends CommandBase
 			int i = parseInt(ics, rel ? (s[0].length() == 1 ? "0" : s[0].substring(1)) : s[0]);
 			PlayerCoins.set(ep, rel ? (i0 + i) : i);
 			
-			if(rel) LatCore.printChat(ics, "Added " + i + " coins. You now have " + (i + i0) + " coins");
-			else LatCore.printChat(ics, "Coins set to: " + i);
+			if(rel) LatCoreMC.printChat(ics, "Added " + i + " coins. You now have " + (i + i0) + " coins");
+			else LatCoreMC.printChat(ics, "Coins set to: " + i);
 		}
 	}
 }
