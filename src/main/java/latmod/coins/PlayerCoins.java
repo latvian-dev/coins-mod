@@ -7,7 +7,7 @@ import net.minecraft.nbt.NBTTagCompound;
 public class PlayerCoins
 {
 	public static final String COINS_TAG = "LM_Coins";
-	public static final String COINS_CHANNEL = Coins.MODID;
+	public static final String COINS_CHANNEL = Coins.MOD_ID;
 	public static final String ACTION_COINS_CHANGED = "changed";
 	
 	public static long get(EntityPlayer ep)

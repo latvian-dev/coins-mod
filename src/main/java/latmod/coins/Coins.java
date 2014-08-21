@@ -11,13 +11,13 @@ import org.apache.logging.log4j.*;
 import cpw.mods.fml.common.*;
 import cpw.mods.fml.common.event.*;
 
-@Mod(modid = Coins.MODID, name = "Coins Mod", version = Coins.MODVERSION, dependencies="required-after:LatCoreMC")
+@Mod(modid = Coins.MOD_ID, name = "Coins Mod", version = Coins.MOD_VERSION, dependencies="required-after:LatCoreMC")
 public class Coins
 {
-	public static final String MODID = "CoinsMod";
-	public static final String MODVERSION = "1.0.3";
+	public static final String MOD_ID = "CoinsMod";
+	public static final String MOD_VERSION = "1.0.3";
 	
-	@Mod.Instance(Coins.MODID)
+	@Mod.Instance(Coins.MOD_ID)
 	public static Coins inst;
 	
 	@SidedProxy(clientSide = "latmod.coins.CoinsClient", serverSide = "latmod.coins.CoinsCommon")
@@ -32,7 +32,7 @@ public class Coins
 	{
 		logger.info("Loading Coins mod...");
 		
-		mod = new LMMod(MODID);
+		mod = new LMMod(MOD_ID);
 		config = new CoinsConfig(e);
 		
 		mod.addBlock(BlockTrade.inst = new BlockTrade("tradeBlock"));
@@ -52,7 +52,7 @@ public class Coins
 	@Mod.EventHandler
 	public void init(FMLInitializationEvent e)
 	{
-		LC.versionsToCheck.put(MODID, MODVERSION);
+		LC.versionsToCheck.put(MOD_ID, MOD_VERSION);
 		
 		proxy.init();
 	}
