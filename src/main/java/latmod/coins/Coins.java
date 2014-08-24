@@ -11,11 +11,11 @@ import org.apache.logging.log4j.*;
 import cpw.mods.fml.common.*;
 import cpw.mods.fml.common.event.*;
 
-@Mod(modid = Coins.MOD_ID, name = "Coins Mod", version = Coins.MOD_VERSION, dependencies="required-after:LatCoreMC")
+@Mod(modid = Coins.MOD_ID, name = "Coins Mod", version = Coins.MOD_VERSION, dependencies = "required-after:LatCoreMC")
 public class Coins
 {
 	public static final String MOD_ID = "CoinsMod";
-	public static final String MOD_VERSION = "1.0.3";
+	public static final String MOD_VERSION = "@VERSION@";
 	
 	@Mod.Instance(Coins.MOD_ID)
 	public static Coins inst;
@@ -35,10 +35,7 @@ public class Coins
 		mod = new LMMod(MOD_ID);
 		config = new CoinsConfig(e);
 		
-		mod.addBlock(BlockTrade.inst = new BlockTrade("tradeBlock"));
-		
-		mod.addItem(ItemCoins.inst = new ItemCoins("coins"));
-		
+		CoinsItems.init(mod);
 		mod.onPostLoaded();
 		
 		ICustomActionHandler h = new CoinsEventHandlers();
@@ -48,15 +45,15 @@ public class Coins
 		proxy.preInit();
 		config.save();
 	}
-
+	
 	@Mod.EventHandler
 	public void init(FMLInitializationEvent e)
 	{
-		LC.versionsToCheck.put(MOD_ID, MOD_VERSION);
+		LC.modsToCheck.add(MOD_ID);
 		
 		proxy.init();
 	}
-
+	
 	@Mod.EventHandler
 	public void postInit(FMLPostInitializationEvent e)
 	{

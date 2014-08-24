@@ -34,7 +34,7 @@ public class WailaTrade extends BasicWailaHandler
 					l.add("For free");
 				else
 					l.add("For " + t.price + " coins");
-				l.add("Can Buy | Sell: " + t.canBuy + " | " + t.canSell);
+				l.add("Buy:" + t.canBuy + " | Sell:" + t.canSell);
 			}
 		}
 		

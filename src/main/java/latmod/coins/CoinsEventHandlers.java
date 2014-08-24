@@ -1,5 +1,4 @@
 package latmod.coins;
-import latmod.coins.game.ItemCoins;
 import latmod.core.*;
 import latmod.core.client.LMRenderer;
 import latmod.core.mod.net.ICustomActionHandler;
@@ -40,7 +39,7 @@ public class CoinsEventHandlers implements ICustomActionHandler
 				
 				if(l <= 0) return;
 				
-				InvUtils.dropItem(e.entity, ItemCoins.inst.create(l));
+				InvUtils.dropItem(e.entity, CoinsItems.i_coins.create(l));
 			}
 		}
 	}
@@ -52,9 +51,9 @@ public class CoinsEventHandlers implements ICustomActionHandler
 		{
 			ItemStack is = e.item.getEntityItem();
 			
-			if(is != null && InvUtils.itemsEquals(is, ItemCoins.COINS_1, false, false))
+			if(is != null && InvUtils.itemsEquals(is, CoinsItems.COINS_1, false, false))
 			{
-				int i = InvUtils.getFirstIndexWithItem(e.entityPlayer.inventory, ItemCoins.COINS_1, null, false, false);
+				int i = InvUtils.getFirstIndexWithItem(e.entityPlayer.inventory, CoinsItems.COINS_1, -1, false, false);
 				
 				if(i != -1)
 				{
@@ -62,10 +61,10 @@ public class CoinsEventHandlers implements ICustomActionHandler
 					
 					if(is1 != null)
 					{
-						long c = ItemCoins.inst.getCoins(is1);
-						long c1 = ItemCoins.inst.getCoins(is);
+						long c = CoinsItems.i_coins.getCoins(is1);
+						long c1 = CoinsItems.i_coins.getCoins(is);
 						
-						e.entityPlayer.inventory.setInventorySlotContents(i, ItemCoins.inst.create(c + c1));
+						e.entityPlayer.inventory.setInventorySlotContents(i, CoinsItems.i_coins.create(c + c1));
 						e.entity.worldObj.playSoundAtEntity(e.entity, "random.orb", 0.1F, 0.5F * ((e.entity.worldObj.rand.nextFloat() - e.entity.worldObj.rand.nextFloat()) * 0.7F + 1.8F));
 						
 						e.item.setDead();

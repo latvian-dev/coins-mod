@@ -7,5 +7,5 @@ coinsmod:tile.tradeBlock.name=Trade Block
 ### Lang ###
 
 coins:command.usage.coins=/coins
-coins:command.usage.setcoins=/setcoins <coins>
+coins:command.usage.setcoins=/setcoins <coins> [player]
 coins:command.usage.settrade=/settrade <coins> <can sell>

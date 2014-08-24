@@ -14,24 +14,16 @@ import cpw.mods.fml.relauncher.*;
 
 public class ItemCoins extends ItemLM
 {
-	public static ItemCoins inst;
-	
-	public static ItemStack COINS_1;
-	public static ItemStack COINS_10;
-	public static ItemStack COINS_100;
-	public static ItemStack COINS_1000;
-	public static ItemStack COINS_10000;
-	
 	public ItemCoins(String s)
 	{
 		super(s);
 		setMaxStackSize(1);
 		
-		COINS_1 = create(1);
-		COINS_10 = create(10);
-		COINS_100 = create(100);
-		COINS_1000 = create(1000);
-		COINS_10000 = create(10000);
+		CoinsItems.COINS_1 = create(1);
+		CoinsItems.COINS_10 = create(10);
+		CoinsItems.COINS_100 = create(100);
+		CoinsItems.COINS_1000 = create(1000);
+		CoinsItems.COINS_10000 = create(10000);
 	}
 	
 	public LMMod getMod()
@@ -49,11 +41,11 @@ public class ItemCoins extends ItemLM
 	
 	public void onPostLoaded()
 	{
-		itemsAdded.add(COINS_1);
-		itemsAdded.add(COINS_10);
-		itemsAdded.add(COINS_100);
-		itemsAdded.add(COINS_1000);
-		itemsAdded.add(COINS_10000);
+		itemsAdded.add(CoinsItems.COINS_1);
+		itemsAdded.add(CoinsItems.COINS_10);
+		itemsAdded.add(CoinsItems.COINS_100);
+		itemsAdded.add(CoinsItems.COINS_1000);
+		itemsAdded.add(CoinsItems.COINS_10000);
 	}
 	
 	public ItemStack create(long i)

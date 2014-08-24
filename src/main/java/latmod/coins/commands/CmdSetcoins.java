@@ -15,20 +15,22 @@ public class CmdSetcoins extends CommandBase
 	public String getCommandUsage(ICommandSender ics)
 	{ return Coins.mod.assets + "command.usage.setcoins"; }
 	
-	public void processCommand(ICommandSender ics, String[] s)
+	public void processCommand(ICommandSender ics, String[] args)
 	{
 		if(!(ics instanceof EntityPlayer)) return;
 		EntityPlayer ep = (EntityPlayer)ics;
 		
-		if(s != null && s.length == 1)
+		if(args != null && args.length >= 1)
 		{
-			boolean rel = s[0].startsWith("~");
+			if(args.length >= 2) ep = getPlayer(ics, args[1]);
+			
+			boolean rel = args[0].startsWith("~");
 			long i0 = PlayerCoins.get(ep);
 			
-			int i = parseInt(ics, rel ? (s[0].length() == 1 ? "0" : s[0].substring(1)) : s[0]);
+			int i = parseInt(ics, rel ? (args[0].length() == 1 ? "0" : args[0].substring(1)) : args[0]);
 			PlayerCoins.set(ep, rel ? (i0 + i) : i);
 			
-			if(rel) LatCoreMC.printChat(ics, "Added " + i + " coins. You now have " + (i + i0) + " coins");
+			if(rel) LatCoreMC.printChat(ics, "Added " + i + " coins. " + ep.getCommandSenderName() + " now has " + (i + i0) + " coins");
 			else LatCoreMC.printChat(ics, "Coins set to: " + i);
 		}
 	}

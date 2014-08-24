@@ -14,8 +14,6 @@ import cpw.mods.fml.relauncher.*;
 
 public class BlockTrade extends BlockLM
 {
-	public static BlockTrade inst;
-	
 	public BlockTrade(String s)
 	{
 		super(Coins.mod, s, Material.wood);
