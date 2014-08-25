@@ -38,7 +38,7 @@ minecraft {
 }
 
 dependencies {
-	compile files("sources/Files/" + config.name_latcoremc + "/" + config.version_mc + "/" + config.name_latcoremc + "-" + config.version_mc + "-" + config.version_mods + "-dev.jar")
+	compile files("sources/Files/" + config.version_mc + "/" + config.name_latcoremc + "/" + config.name_latcoremc + "-" + config.version_mc + "-" + config.version_mods + "-dev.jar")
 }
 
 sourceSets {
@@ -54,7 +54,7 @@ sourceSets {
 
 tasks.withType(Jar)
 {
-    destinationDir = file("$rootDir/sources/Files/" + config.name_coins + "/" + config.version_mc)
+    destinationDir = file("$rootDir/sources/Files/" + config.version_mc + "/" + config.name_coins)
 }
 
 processResources

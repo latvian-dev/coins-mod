@@ -49,8 +49,6 @@ public class Coins
 	@Mod.EventHandler
 	public void init(FMLInitializationEvent e)
 	{
-		LC.modsToCheck.add(MOD_ID);
-		
 		proxy.init();
 	}
 	
