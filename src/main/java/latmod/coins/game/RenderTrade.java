@@ -1,13 +1,8 @@
 package latmod.coins.game;
 
-import latmod.core.InvUtils;
-import net.minecraft.block.Block;
-import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.client.renderer.entity.*;
-import net.minecraft.client.renderer.texture.TextureMap;
+import latmod.core.client.LMRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.item.*;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
 
 import org.lwjgl.opengl.GL11;
@@ -17,9 +12,6 @@ import cpw.mods.fml.relauncher.*;
 @SideOnly(Side.CLIENT)
 public class RenderTrade extends TileEntitySpecialRenderer
 {
-	public EntityItem entityItem = null;
-	public RenderBlocks renderBlocks = new RenderBlocks();
-	
 	public RenderTrade()
 	{
 	}
@@ -31,23 +23,8 @@ public class RenderTrade extends TileEntitySpecialRenderer
 		
 		GL11.glColor4f(1F, 1F, 1F, 1F);
 		
-		GL11.glDisable(GL11.GL_LIGHTING);
-		GL11.glPushMatrix();
-		GL11.glTranslated(tx + 0.5D, ty + 0.5D, tz + 0.5D);
-		ItemStack tex = t.getPaint();
-		if(tex == null) tex = new ItemStack(t.blockType);
-		bindTexture(TextureMap.locationBlocksTexture);
-		renderBlocks.blockAccess = t.getWorldObj();
-		renderBlocks.clearOverrideBlockTexture();
-		renderBlocks.setRenderBounds(0D, 0D, 0D, 1D, 1D, 1D);
-		renderBlocks.renderBlockSandFalling(Block.getBlockFromItem(tex.getItem()), t.getWorldObj(), t.xCoord, t.yCoord, t.zCoord, tex.getItemDamage());
-		GL11.glPopMatrix();
-		GL11.glEnable(GL11.GL_LIGHTING);
-		
 		if(t.tradeItem != null && t.tradeItem.getItem() != null)
 		{
-			if(entityItem == null) entityItem = new EntityItem(te.getWorldObj(), 0D, 0D, 0D, t.tradeItem);
-			
 			GL11.glPushMatrix();
 			GL11.glTranslated(tx, ty + 1D, tz + 1D);
 			GL11.glScalef(1F, -1F, -1F);
@@ -69,7 +46,7 @@ public class RenderTrade extends TileEntitySpecialRenderer
 				GL11.glTranslatef(0.5F, 0.65F, -0.005F);
 				
 				if(!(t.tradeItem.getItem() instanceof ItemBlock))
-					GL11.glTranslatef(0F, 0.05F, 0F);
+					GL11.glTranslatef(0F, 0.05F, -0.03F);
 				
 				GL11.glColor4f(1F, 1F, 1F, 1F);
 				
@@ -78,13 +55,7 @@ public class RenderTrade extends TileEntitySpecialRenderer
 				float iS = 1.2F;
 				GL11.glScalef(-iS, -iS, iS);
 				
-				entityItem.worldObj = t.getWorldObj();
-				entityItem.setEntityItemStack(InvUtils.singleCopy(t.tradeItem));
-				entityItem.hoverStart = 0F;
-				
-				RenderItem.renderInFrame = true;
-                RenderManager.instance.renderEntityWithPosYaw(entityItem, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
-                RenderItem.renderInFrame = false;
+				LMRenderer.renderItem(t.getWorldObj(), t.renderItem, true, true);
 				
 				GL11.glPopMatrix();
 			}

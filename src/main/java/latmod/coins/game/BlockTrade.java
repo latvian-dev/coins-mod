@@ -1,7 +1,7 @@
 package latmod.coins.game;
 
 import latmod.coins.Coins;
-import latmod.core.client.LatCoreClient;
+import latmod.core.client.LatCoreMCClient;
 import latmod.core.mod.block.BlockLM;
 import latmod.core.mod.tile.TileLM;
 import net.minecraft.block.material.Material;
@@ -14,6 +14,8 @@ import cpw.mods.fml.relauncher.*;
 
 public class BlockTrade extends BlockLM
 {
+	public static int renderID = -1;
+	
 	public BlockTrade(String s)
 	{
 		super(Coins.mod, s, Material.wood);
@@ -41,9 +43,12 @@ public class BlockTrade extends BlockLM
 	public boolean renderAsNormalBlock()
 	{ return false; }
 	
+	public int getRenderType()
+	{ return renderID; }
+	
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(IBlockAccess iba, int x, int y, int z, int s)
-	{ return LatCoreClient.blockNullIcon; }
+	{ return LatCoreMCClient.blockNullIcon; }
 	
 	public boolean isBlockSolid(IBlockAccess iba, int x, int y, int z, int side)
 	{ return true; }

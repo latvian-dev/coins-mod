@@ -10,16 +10,22 @@ import net.minecraft.nbt.NBTTagCompound;
 public class TileTrade extends TileLM implements IPaintable
 {
 	public ItemStack tradeItem;
+	public ItemStack renderItem;
 	private ItemStack paintItem;
 	public int price;
 	public byte rotation;
 	public boolean canSell;
 	public boolean canBuy;
 	
+	public boolean rerenderBlock()
+	{ return true; }
+	
 	public void readTileData(NBTTagCompound tag)
 	{
 		if(!tag.hasKey("Item")) tradeItem = null; else
 			tradeItem = ItemStack.loadItemStackFromNBT(tag.getCompoundTag("Item"));
+		
+		renderItem = (tradeItem == null) ? null : InvUtils.singleCopy(tradeItem);
 		
 		if(!tag.hasKey("Paint")) paintItem = null;
 			paintItem = ItemStack.loadItemStackFromNBT(tag.getCompoundTag("Paint"));
