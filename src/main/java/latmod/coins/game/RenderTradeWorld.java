@@ -17,6 +17,9 @@ public class RenderTradeWorld implements ISimpleBlockRenderingHandler
 	
 	public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer)
 	{
+		renderBlocks.customMetadata = 0;
+		renderBlocks.setCustomColor(null);
+		renderBlocks.setRenderBounds(0D, 0D, 0D, 1D, 1D, 1D);
 		renderBlocks.setOverrideBlockTexture(CoinsItems.b_trade.getBlockIcon());
 		renderBlocks.renderBlockAsItem(Blocks.stone, 0, 1F);
 	}

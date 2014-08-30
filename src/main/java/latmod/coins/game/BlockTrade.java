@@ -55,4 +55,25 @@ public class BlockTrade extends BlockLM
 	
 	public boolean isSideSolid(IBlockAccess iba, int x, int y, int z, ForgeDirection side)
 	{ return true; }
+	
+	public boolean rotateBlock(World w, int x, int y, int z, ForgeDirection side)
+	{
+		if(!w.isRemote)
+		{
+			TileTrade t = (TileTrade)w.getTileEntity(x, y, z);
+			if(t != null && !t.isInvalid())
+			{
+				byte r1 = 0;
+				if(t.rotation == 2) r1 = 5;
+				else if(t.rotation == 3) r1 = 4;
+				else if(t.rotation == 4) r1 = 2;
+				else if(t.rotation == 5) r1 = 3;
+				
+				t.rotation = r1;
+				t.markDirty();
+			}
+		}
+		
+		return true;
+	}
 }
