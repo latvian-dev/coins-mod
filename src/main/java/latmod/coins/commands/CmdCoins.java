@@ -23,6 +23,6 @@ public class CmdCoins extends CommandBase
 		if(!(ics instanceof EntityPlayer)) return;
 		EntityPlayer ep = (EntityPlayer)ics;
 		
-		LatCoreMC.printChat(ics, "Coins: " + PlayerCoins.get(ep));
+		LatCoreMC.printChat(ics, "Coins: " + PlayerCoins.get(ep.getUniqueID()));
 	}
 }

@@ -2,8 +2,7 @@ package latmod.coins;
 import latmod.coins.commands.*;
 import latmod.coins.game.*;
 import latmod.core.apis.WailaHelper;
-import latmod.core.mod.*;
-import latmod.core.mod.net.*;
+import latmod.core.mod.LMMod;
 import net.minecraftforge.common.MinecraftForge;
 
 import org.apache.logging.log4j.*;
@@ -38,9 +37,7 @@ public class Coins
 		CoinsItems.init(mod);
 		mod.onPostLoaded();
 		
-		ICustomActionHandler h = new CoinsEventHandlers();
-		MinecraftForge.EVENT_BUS.register(h);
-		LMNetHandler.customHandlers.put(PlayerCoins.COINS_CHANNEL, h);
+		MinecraftForge.EVENT_BUS.register(new CoinsEventHandlers());
 		
 		proxy.preInit();
 		config.save();

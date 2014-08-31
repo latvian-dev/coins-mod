@@ -1,39 +1,28 @@
 package latmod.coins;
-import latmod.core.LatCoreMC;
-import latmod.core.mod.net.*;
-import net.minecraft.entity.player.*;
-import net.minecraft.nbt.NBTTagCompound;
+import java.util.UUID;
+
+import latmod.core.mod.LMPlayer;
+import net.minecraft.entity.player.EntityPlayer;
 
 public class PlayerCoins
 {
-	public static final String COINS_TAG = "LM_Coins";
-	public static final String COINS_CHANNEL = Coins.MOD_ID;
-	public static final String ACTION_COINS_CHANGED = "changed";
-	
-	public static long get(EntityPlayer ep)
+	public static long get(UUID id)
 	{
-		if(ep == null) return 0;
-		NBTTagCompound tag = ep.getEntityData();
-		return tag.getLong(COINS_TAG);
+		LMPlayer p = LMPlayer.getPlayer(id);
+		if(p == null) return 0L;
+		return p.customData().getLong("Coins");
 	}
 	
 	public static void set(EntityPlayer ep, long c)
 	{
-		if(ep == null) return;
-		
-		long c0 = get(ep);
+		long c0 = get(ep.getUniqueID());
 		
 		if(c0 != c)
 		{
-			NBTTagCompound tag = ep.getEntityData();
-			tag.setLong(COINS_TAG, c);
-			
-			if(LatCoreMC.canUpdate() && ep instanceof EntityPlayerMP)
-			{
-				NBTTagCompound tag1 = new NBTTagCompound();
-				tag1.setLong("Coins", c);
-				LMNetHandler.INSTANCE.sendTo(new MessageCustomServerAction(COINS_CHANNEL, ACTION_COINS_CHANGED, tag1), (EntityPlayerMP)ep);
-			}
+			LMPlayer p = LMPlayer.getPlayer(ep.getUniqueID());
+			if(p == null) return;
+			p.customData().setLong("Coins", c);
+			p.sendUpdate(CoinsEventHandlers.CHANNEL);
 		}
 	}
 	
@@ -41,13 +30,11 @@ public class PlayerCoins
 	{
 		if(ep == null || c <= 0) return false;
 		
-		long c0 = get(ep);
+		long c0 = get(ep.getUniqueID());
 		
 		if(c0 >= c)
 		{
-			if(doTake)
-				set(ep, c0 - c);
-			
+			if(doTake) set(ep, c0 - c);
 			return true;
 		}
 		

@@ -18,12 +18,6 @@ public class ItemCoins extends ItemLM
 	{
 		super(s);
 		setMaxStackSize(1);
-		
-		CoinsItems.COINS_1 = create(1);
-		CoinsItems.COINS_10 = create(10);
-		CoinsItems.COINS_100 = create(100);
-		CoinsItems.COINS_1000 = create(1000);
-		CoinsItems.COINS_10000 = create(10000);
 	}
 	
 	public LMMod getMod()
@@ -41,11 +35,11 @@ public class ItemCoins extends ItemLM
 	
 	public void onPostLoaded()
 	{
-		itemsAdded.add(CoinsItems.COINS_1);
-		itemsAdded.add(CoinsItems.COINS_10);
-		itemsAdded.add(CoinsItems.COINS_100);
-		itemsAdded.add(CoinsItems.COINS_1000);
-		itemsAdded.add(CoinsItems.COINS_10000);
+		itemsAdded.add(CoinsItems.COINS_1 = create(1));
+		itemsAdded.add(CoinsItems.COINS_10 = create(10));
+		itemsAdded.add(CoinsItems.COINS_100 = create(100));
+		itemsAdded.add(CoinsItems.COINS_1000 = create(1000));
+		itemsAdded.add(CoinsItems.COINS_10000 = create(10000));
 	}
 	
 	public ItemStack create(long i)
@@ -76,11 +70,13 @@ public class ItemCoins extends ItemLM
 	{
 		ep.renderBrokenItemStack(is);
 		
-		long c = getCoins(is);
-		PlayerCoins.set(ep, PlayerCoins.get(ep) + c);
-		//LatCore.printChat(ep, "Added " + c + " coins");
-		
-		if(!ep.capabilities.isCreativeMode) is.stackSize--;
+		if(!w.isRemote)
+		{
+			long c = getCoins(is);
+			PlayerCoins.set(ep, PlayerCoins.get(ep.getUniqueID()) + c);
+			
+			if(!ep.capabilities.isCreativeMode) is.stackSize--;
+		}
 		
 		return is;
 	}

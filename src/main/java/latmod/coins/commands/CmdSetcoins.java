@@ -25,7 +25,7 @@ public class CmdSetcoins extends CommandBase
 			if(args.length >= 2) ep = getPlayer(ics, args[1]);
 			
 			boolean rel = args[0].startsWith("~");
-			long i0 = PlayerCoins.get(ep);
+			long i0 = PlayerCoins.get(ep.getUniqueID());
 			
 			int i = parseInt(ics, rel ? (args[0].length() == 1 ? "0" : args[0].substring(1)) : args[0]);
 			PlayerCoins.set(ep, rel ? (i0 + i) : i);

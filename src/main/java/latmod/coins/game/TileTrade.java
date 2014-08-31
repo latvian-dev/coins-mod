@@ -120,7 +120,7 @@ public class TileTrade extends TileLM implements IPaintable
 			if(neededSize <= 0)
 			{
 				InvUtils.reduceItemInInv(ep.inventory, InvUtils.getPlayerSlots(ep), tradeItem, tradeItem.stackSize);
-				PlayerCoins.set(ep, PlayerCoins.get(ep) + price);
+				PlayerCoins.set(ep, PlayerCoins.get(ep.getUniqueID()) + price);
 			}
 		}
 	}

@@ -1,11 +1,10 @@
 package latmod.coins;
 import latmod.core.*;
 import latmod.core.client.LMRenderer;
-import latmod.core.mod.net.ICustomActionHandler;
+import latmod.core.mod.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.*;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -16,8 +15,10 @@ import org.lwjgl.opengl.GL11;
 import cpw.mods.fml.common.eventhandler.*;
 import cpw.mods.fml.relauncher.*;
 
-public class CoinsEventHandlers implements ICustomActionHandler
+public class CoinsEventHandlers
 {
+	public static final String CHANNEL = "Coins";
+	
 	public int coinsAlpha = 0;
 	public long clientCoins = 0L;
 	public long prevCoins = 0L;
@@ -88,19 +89,20 @@ public class CoinsEventHandlers implements ICustomActionHandler
 			
 			coinsAlpha--;
 			
-			int col1 = LMRenderer.getColor((clientCoins > prevCoins) ? EnumDyeColor.LIME.color : EnumDyeColor.RED.color, coinsAlpha);
+			int col1 = LMRenderer.getColor((clientCoins < prevCoins) ? EnumDyeColor.RED.color : EnumDyeColor.LIME.color, coinsAlpha);
 			
 			mc.fontRenderer.drawString(EnumChatFormatting.BOLD + "Coins: " + clientCoins, 4, e.resolution.getScaledHeight() - 12, col1);
 		}
 	}
-
-	public void onAction(EntityPlayer ep, String channel, String action, NBTTagCompound extraData, Side s)
+	
+	@SubscribeEvent
+	public void dataChanged(LMPlayer.DataChangedEvent e)
 	{
-		if(action.equals(PlayerCoins.ACTION_COINS_CHANGED))
+		if(e.isChannel(CHANNEL) && e.side.isClient())
 		{
 			coinsAlpha = 255;
 			prevCoins = clientCoins;
-			clientCoins = extraData.getLong("Coins");
+			clientCoins = PlayerCoins.get(e.player.uuid);
 		}
 	}
 }
