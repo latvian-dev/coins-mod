@@ -58,6 +58,7 @@ public class BlockTrade extends BlockLM
 	
 	public boolean rotateBlock(World w, int x, int y, int z, ForgeDirection side)
 	{
+		/* Temp disabled, because non-creative players could rotate this block too
 		if(!w.isRemote)
 		{
 			TileTrade t = (TileTrade)w.getTileEntity(x, y, z);
@@ -75,5 +76,7 @@ public class BlockTrade extends BlockLM
 		}
 		
 		return true;
+		*/
+		return false;
 	}
 }

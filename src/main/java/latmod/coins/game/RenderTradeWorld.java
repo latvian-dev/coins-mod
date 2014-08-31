@@ -28,27 +28,26 @@ public class RenderTradeWorld implements ISimpleBlockRenderingHandler
 	{
 		TileTrade t = (TileTrade)iba.getTileEntity(x, y, z);
 		
-		if(t != null && !t.isInvalid())
+		if(t == null || t.isInvalid()) return false;
+		
+		ItemStack tex = t.getPaint();
+		Block renderBlock = CoinsItems.b_trade;
+		
+		if(tex == null)
 		{
-			ItemStack tex = t.getPaint();
-			Block renderBlock = CoinsItems.b_trade;
-			
-			if(tex == null)
-			{
-				renderBlocks.customMetadata = 0;
-				renderBlocks.setCustomColor(null);
-			}
-			else
-			{
-				renderBlock = Block.getBlockFromItem(tex.getItem());
-				renderBlocks.customMetadata = tex.getItemDamage();
-				renderBlocks.setCustomColor(renderBlock.colorMultiplier(iba, x, y, z));
-			}
-			renderBlocks.blockAccess = t.getWorldObj();
-			renderBlocks.clearOverrideBlockTexture();
-			renderBlocks.setRenderBounds(0D, 0D, 0D, 1D, 1D, 1D);
-			renderBlocks.renderStandardBlock(renderBlock, t.xCoord, t.yCoord, t.zCoord);
+			renderBlocks.customMetadata = 0;
+			renderBlocks.setCustomColor(null);
 		}
+		else
+		{
+			renderBlock = Block.getBlockFromItem(tex.getItem());
+			renderBlocks.customMetadata = tex.getItemDamage();
+			renderBlocks.setCustomColor(renderBlock.colorMultiplier(iba, x, y, z));
+		}
+		renderBlocks.blockAccess = t.getWorldObj();
+		renderBlocks.clearOverrideBlockTexture();
+		renderBlocks.setRenderBounds(0D, 0D, 0D, 1D, 1D, 1D);
+		renderBlocks.renderStandardBlock(renderBlock, t.xCoord, t.yCoord, t.zCoord);
 		
 		return true;
 	}
