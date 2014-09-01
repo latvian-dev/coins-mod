@@ -37,7 +37,7 @@ public class Coins
 		CoinsItems.init(mod);
 		mod.onPostLoaded();
 		
-		MinecraftForge.EVENT_BUS.register(new CoinsEventHandlers());
+		MinecraftForge.EVENT_BUS.register(new CoinsEventHandler());
 		
 		proxy.preInit();
 		config.save();

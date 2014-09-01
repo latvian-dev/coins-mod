@@ -1,21 +1,19 @@
 package latmod.coins;
-import latmod.core.*;
+import latmod.core.EnumDyeColor;
 import latmod.core.client.LMRenderer;
-import latmod.core.mod.*;
+import latmod.core.mod.LMPlayer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.*;
+import net.minecraft.util.EntityDamageSource;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 
 import org.lwjgl.opengl.GL11;
 
-import cpw.mods.fml.common.eventhandler.*;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.*;
 
-public class CoinsEventHandlers
+public class CoinsEventHandler
 {
 	public static final String CHANNEL = "Coins";
 	
@@ -40,39 +38,7 @@ public class CoinsEventHandlers
 				
 				if(l <= 0) return;
 				
-				InvUtils.dropItem(e.entity, CoinsItems.i_coins.create(l));
-			}
-		}
-	}
-	
-	@SubscribeEvent
-	public void onItemPickup(EntityItemPickupEvent e)
-	{
-		if(Coins.config.general.combineCoins && !e.entity.worldObj.isRemote)
-		{
-			ItemStack is = e.item.getEntityItem();
-			
-			if(is != null && InvUtils.itemsEquals(is, CoinsItems.COINS_1, false, false))
-			{
-				int i = InvUtils.getFirstIndexWithItem(e.entityPlayer.inventory, CoinsItems.COINS_1, -1, false, false);
-				
-				if(i != -1)
-				{
-					ItemStack is1 = e.entityPlayer.inventory.getStackInSlot(i);
-					
-					if(is1 != null)
-					{
-						long c = CoinsItems.i_coins.getCoins(is1);
-						long c1 = CoinsItems.i_coins.getCoins(is);
-						
-						e.entityPlayer.inventory.setInventorySlotContents(i, CoinsItems.i_coins.create(c + c1));
-						e.entity.worldObj.playSoundAtEntity(e.entity, "random.orb", 0.1F, 0.5F * ((e.entity.worldObj.rand.nextFloat() - e.entity.worldObj.rand.nextFloat()) * 0.7F + 1.8F));
-						
-						e.item.setDead();
-						e.setResult(Event.Result.DENY);
-						e.setCanceled(true);
-					}
-				}
+				PlayerCoins.add((EntityPlayer)(((EntityDamageSource)e.source).getEntity()), l);
 			}
 		}
 	}
@@ -91,7 +57,7 @@ public class CoinsEventHandlers
 			
 			int col1 = LMRenderer.getColor((clientCoins < prevCoins) ? EnumDyeColor.RED.color : EnumDyeColor.LIME.color, coinsAlpha);
 			
-			mc.fontRenderer.drawString(EnumChatFormatting.BOLD + "Coins: " + clientCoins, 4, e.resolution.getScaledHeight() - 12, col1);
+			mc.fontRenderer.drawString("Coins: " + clientCoins, 4, e.resolution.getScaledHeight() - 12, col1);
 		}
 	}
 	

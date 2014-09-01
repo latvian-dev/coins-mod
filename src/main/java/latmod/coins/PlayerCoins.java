@@ -22,9 +22,12 @@ public class PlayerCoins
 			LMPlayer p = LMPlayer.getPlayer(ep.getUniqueID());
 			if(p == null) return;
 			p.customData().setLong("Coins", c);
-			p.sendUpdate(CoinsEventHandlers.CHANNEL);
+			p.sendUpdate(CoinsEventHandler.CHANNEL);
 		}
 	}
+	
+	public static void add(EntityPlayer ep, long c)
+	{ set(ep, get(ep.getUniqueID()) + c); }
 	
 	public static boolean take(EntityPlayer ep, long c, boolean doTake)
 	{

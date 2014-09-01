@@ -30,16 +30,16 @@ public class CmdSetTrade extends CommandBase
 		
 		if(args == null || args.length == 0)
 		{
-			LatCoreMC.printChat(ics, "/settrade <price> <canSell> [canBuy]");
+			LatCoreMC.printChat(ics, "/settrade <price> [canSell] [canBuy]");
 			return;
 		}
 		
 		if(ep.capabilities.isCreativeMode)
 		{
-			if(args.length >= 2)
+			if(args.length >= 1)
 			{
 				int price = parseInt(ics, args[0]);
-				boolean canSell = parseBoolean(ics, args[1]);
+				boolean canSell = (args.length >= 2) ? parseBoolean(ics, args[1]) : false;
 				boolean canBuy = (args.length >= 3) ? parseBoolean(ics, args[2]) : true;
 				ItemStack item = ep.getHeldItem();
 				
