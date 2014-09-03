@@ -1,6 +1,6 @@
 package latmod.coins;
 
-import latmod.coins.game.BlockTrade;
+import latmod.coins.block.BlockTrade;
 import latmod.core.mod.LMMod;
 
 public class CoinsItems

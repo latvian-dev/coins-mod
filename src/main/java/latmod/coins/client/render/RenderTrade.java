@@ -1,5 +1,6 @@
-package latmod.coins.game;
+package latmod.coins.client.render;
 
+import latmod.coins.tile.TileTrade;
 import latmod.core.client.LMRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemBlock;

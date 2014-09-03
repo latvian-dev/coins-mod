@@ -1,6 +1,8 @@
-package latmod.coins.game;
+package latmod.coins.client.render;
 
 import latmod.coins.CoinsItems;
+import latmod.coins.block.BlockTrade;
+import latmod.coins.tile.TileTrade;
 import latmod.core.client.RenderBlocksCustom;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;

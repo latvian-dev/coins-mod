@@ -2,7 +2,9 @@ package latmod.coins;
 import latmod.core.mod.LMConfig;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.IBossDisplayData;
+import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.World;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
 public class CoinsConfig extends LMConfig
@@ -18,44 +20,33 @@ public class CoinsConfig extends LMConfig
 
 	public class General extends Category
 	{
-		public boolean mobsDropCoins;
-		public boolean combineCoins;
-		public float coinDropMultiplayer;
-		public float bossMultiplier;
-		public float babyMultiplier;
-		public int coinDropRarity;
-		
 		public General()
 		{
 			super("general");
-			
-			mobsDropCoins = getBool("mobsDropCoins", true);
-			
-			combineCoins = getBool("combineCoins", true);
-			
-			coinDropMultiplayer = (float)getDouble("coinDropMultiplayer", 1D);
-			bossMultiplier = (float)getDouble("bossMultiplier", 5D);
-			babyMultiplier = (float)getDouble("babyMultiplier", 0.5D);
-			
-			coinDropRarity = getInt("coinDropRarity", 2, 1, 100,
-					"Bigger number [1 - 100] - smaller chance of getting coins",
-					"1 - Coins are always dropped");
 		}
 	}
 	
-	public int getMaxDroppedCoinsFor(EntityLivingBase e)
+	private double getGameRuleD(World w, String s)
+	{ return Double.parseDouble(w.getGameRules().getGameRuleStringValue(s)); }
+	
+	public double getMaxDroppedCoinsFor(EntityLivingBase e)
 	{
-		if(!general.mobsDropCoins || e == null || e instanceof EntityPlayer) return 0;
+		if(e == null || e instanceof EntityPlayer) return 0D;
 		
-		float l = e.getMaxHealth();
+		double l = e.getMaxHealth();
 		
-		l *= general.coinDropMultiplayer;
+		l *= getGameRuleD(e.worldObj, "coinsScaleAll");
+		
+		if(e instanceof IMob)
+			l *= getGameRuleD(e.worldObj, "coinsScaleHostile");
+		else
+			l *= getGameRuleD(e.worldObj, "coinsScaleNeutral");
 		
 		if(e instanceof IBossDisplayData)
-			l *= general.bossMultiplier;
+			l *= getGameRuleD(e.worldObj, "coinsScaleBoss");
 		
 		if(e.getAge() < 0)
-			l *= general.babyMultiplier;
+			l *= getGameRuleD(e.worldObj, "coinsScaleBaby");
 		
 		return (int)l;
 	}

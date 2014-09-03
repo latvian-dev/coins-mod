@@ -24,22 +24,19 @@ public class CoinsEventHandler
 	@SubscribeEvent
 	public void onEntityLivingDrops(LivingDeathEvent e)
 	{
-		if(Coins.config.general.mobsDropCoins && !e.entity.worldObj.isRemote)
+		if(!e.entity.worldObj.isRemote && e.source != null && e.source instanceof EntityDamageSource && ((EntityDamageSource)e.source).getEntity() instanceof EntityPlayer)
 		{
-			if(e.source != null && e.source instanceof EntityDamageSource && ((EntityDamageSource)e.source).getEntity() instanceof EntityPlayer)
-			{
-				if(e.entity.worldObj.rand.nextInt(Coins.config.general.coinDropRarity) != 0) return;
-				
-				int max = Coins.config.getMaxDroppedCoinsFor(e.entityLiving);
-				
-				if(max <= 0) return;
-				
-				int l = e.entity.worldObj.rand.nextInt(max) + 1;
-				
-				if(l <= 0) return;
-				
-				PlayerCoins.add((EntityPlayer)(((EntityDamageSource)e.source).getEntity()), l);
-			}
+			int rarity = Integer.parseInt(e.entity.worldObj.getGameRules().getGameRuleStringValue("coinsDropRarity"));
+			
+			if(e.entity.worldObj.rand.nextInt(rarity) != 0) return;
+			
+			double max = Coins.config.getMaxDroppedCoinsFor(e.entityLiving);
+			
+			if(max < 1D) return;
+			
+			int l = e.entity.worldObj.rand.nextInt((int)max) + 1;
+			
+			if(l > 0) PlayerCoins.add((EntityPlayer)(((EntityDamageSource)e.source).getEntity()), l);
 		}
 	}
 	

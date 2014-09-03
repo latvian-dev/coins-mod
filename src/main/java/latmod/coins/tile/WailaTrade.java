@@ -1,4 +1,4 @@
-package latmod.coins.game;
+package latmod.coins.tile;
 
 import java.util.List;
 
