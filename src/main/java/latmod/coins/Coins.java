@@ -4,6 +4,7 @@ import latmod.coins.tile.*;
 import latmod.core.LatCoreMC;
 import latmod.core.apis.WailaHelper;
 import latmod.core.mod.LMMod;
+import latmod.core.mod.recipes.LMRecipes;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.*;
 import cpw.mods.fml.common.event.*;
@@ -19,16 +20,14 @@ public class Coins
 	@SidedProxy(clientSide = "latmod.coins.CoinsClient", serverSide = "latmod.coins.CoinsCommon")
 	public static CoinsCommon proxy;
 	
-	public static LMMod mod;
-	public static CoinsConfig config;
+	public static LMMod<CoinsConfig, LMRecipes> mod;
 	
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent e)
 	{
-		mod = new LMMod(MOD_ID);
-		config = new CoinsConfig(e);
+		mod = new LMMod<CoinsConfig, LMRecipes>(MOD_ID, new CoinsConfig(e), new LMRecipes(false));
 		
-		CoinsItems.init(mod);
+		CoinsItems.init();
 		mod.onPostLoaded();
 		
 		MinecraftForge.EVENT_BUS.register(new CoinsEventHandler());
@@ -36,7 +35,7 @@ public class Coins
 		LatCoreMC.addGuiHandler(this, proxy);
 		
 		proxy.preInit();
-		config.save();
+		mod.config.save();
 	}
 	
 	@Mod.EventHandler

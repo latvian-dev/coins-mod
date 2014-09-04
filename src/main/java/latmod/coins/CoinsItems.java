@@ -1,14 +1,13 @@
 package latmod.coins;
 
 import latmod.coins.block.BlockTrade;
-import latmod.core.mod.LMMod;
 
 public class CoinsItems
 {
 	public static BlockTrade b_trade;
 	
-	public static void init(LMMod mod)
+	public static void init()
 	{
-		mod.addBlock(b_trade = new BlockTrade("tradeBlock"));
+		Coins.mod.addBlock(b_trade = new BlockTrade("tradeBlock"));
 	}
 }
