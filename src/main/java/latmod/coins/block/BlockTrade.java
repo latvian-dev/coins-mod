@@ -2,7 +2,7 @@ package latmod.coins.block;
 
 import latmod.coins.Coins;
 import latmod.coins.tile.TileTrade;
-import latmod.core.mod.LC;
+import latmod.core.mod.*;
 import latmod.core.mod.block.BlockLM;
 import latmod.core.mod.tile.TileLM;
 import net.minecraft.block.material.Material;
@@ -18,11 +18,14 @@ public class BlockTrade extends BlockLM
 	
 	public BlockTrade(String s)
 	{
-		super(Coins.mod, s, Material.wood);
+		super(s, Material.wood);
 		setBlockUnbreakable();
 		isBlockContainer = true;
 		Coins.mod.addTile(TileTrade.class, s);
 	}
+	
+	public LMMod<?, ?> getMod()
+	{ return Coins.mod; }
 	
 	@SideOnly(Side.CLIENT)
 	public CreativeTabs getCreativeTabToDisplayOn()
