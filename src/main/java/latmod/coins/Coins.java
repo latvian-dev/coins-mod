@@ -5,9 +5,6 @@ import latmod.core.LatCoreMC;
 import latmod.core.apis.WailaHelper;
 import latmod.core.mod.LMMod;
 import net.minecraftforge.common.MinecraftForge;
-
-import org.apache.logging.log4j.*;
-
 import cpw.mods.fml.common.*;
 import cpw.mods.fml.common.event.*;
 
@@ -24,13 +21,10 @@ public class Coins
 	
 	public static LMMod mod;
 	public static CoinsConfig config;
-	public static Logger logger = LogManager.getLogger("CoinsMod");
 	
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent e)
 	{
-		logger.info("Loading Coins mod...");
-		
 		mod = new LMMod(MOD_ID);
 		config = new CoinsConfig(e);
 		
