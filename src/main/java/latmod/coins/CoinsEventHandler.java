@@ -30,7 +30,7 @@ public class CoinsEventHandler
 			
 			if(e.entity.worldObj.rand.nextInt(rarity) != 0) return;
 			
-			double max = Coins.mod.config.getMaxDroppedCoinsFor(e.entityLiving);
+			double max = Coins.mod.config().getMaxDroppedCoinsFor(e.entityLiving);
 			
 			if(max < 1D) return;
 			

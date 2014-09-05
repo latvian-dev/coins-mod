@@ -35,7 +35,7 @@ public class Coins
 		LatCoreMC.addGuiHandler(this, proxy);
 		
 		proxy.preInit();
-		mod.config.save();
+		mod.config().save();
 	}
 	
 	@Mod.EventHandler
