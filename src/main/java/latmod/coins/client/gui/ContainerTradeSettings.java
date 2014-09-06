@@ -10,6 +10,6 @@ public class ContainerTradeSettings extends ContainerLM
 	{
 		super(ep, i);
 		
-		addPlayerSlots(73);
+		addPlayerSlots(52);
 	}
 }

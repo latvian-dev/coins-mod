@@ -1,21 +1,16 @@
 package latmod.coins.tile;
 
-import java.util.UUID;
-
 import latmod.coins.*;
 import latmod.core.*;
 import latmod.core.mod.tile.*;
-import latmod.core.util.FastList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.*;
+import net.minecraft.nbt.NBTTagCompound;
 
 public class TileTrade extends TileLM implements IPaintable, IClientActionTile
 {
 	public static final String BUTTON_BUY = "buy";
 	public static final String BUTTON_SELL = "sell";
-	public static final String BUTTON_ONLY_ONE = "onlyOne";
-	public static final String BUTTON_CLEAR = "onlyOneClear";
 	
 	public ItemStack tradeItem;
 	public ItemStack renderItem;
@@ -24,8 +19,6 @@ public class TileTrade extends TileLM implements IPaintable, IClientActionTile
 	public byte rotation;
 	public boolean canSell;
 	public boolean canBuy;
-	public int sellOnlyOne;
-	public final FastList<UUID> playersBought = new FastList<UUID>();
 	
 	public boolean rerenderBlock()
 	{ return true; }
@@ -48,17 +41,6 @@ public class TileTrade extends TileLM implements IPaintable, IClientActionTile
 		rotation = tag.getByte("Rot");
 		canSell = tag.getBoolean("CanSell");
 		canBuy = tag.getBoolean("CanBuy");
-		
-		sellOnlyOne = tag.getByte("SellOnlyOne");
-		
-		if(sellOnlyOne == 2)
-		{
-			playersBought.clear();
-			
-			NBTTagList l = tag.getTagList("Players", LatCoreMC.NBT_STRING);
-			for(int i = 0; i < l.tagCount(); i++)
-				playersBought.add(UUID.fromString(l.getStringTagAt(i)));
-		}
 	}
 	
 	public void writeTileData(NBTTagCompound tag)
@@ -81,18 +63,6 @@ public class TileTrade extends TileLM implements IPaintable, IClientActionTile
 		tag.setByte("Rot", rotation);
 		tag.setBoolean("CanSell", canSell);
 		tag.setBoolean("CanBuy", canBuy);
-		tag.setByte("SellOnlyOne", (byte)sellOnlyOne);
-		
-		if(sellOnlyOne == 2)
-		{
-			NBTTagList l = new NBTTagList();
-			
-			for(int i = 0; i < playersBought.size(); i++)
-				l.appendTag(new NBTTagString(playersBought.get(i).toString()));
-			
-			if(l.tagCount() > 0)
-				tag.setTag("Players", l);
-		}
 	}
 	
 	public void onPlacedBy(EntityPlayer ep, ItemStack is)
@@ -165,10 +135,10 @@ public class TileTrade extends TileLM implements IPaintable, IClientActionTile
 		}
 	}
 	
-	public ItemStack getPaint()
+	public ItemStack getPaint(int s)
 	{ return paintItem; }
 	
-	public boolean setPaint(ItemStack is, EntityPlayer ep)
+	public boolean setPaint(ItemStack is, EntityPlayer ep, int s)
 	{
 		if(ep != null && !ep.capabilities.isCreativeMode) return false;
 		
@@ -192,16 +162,6 @@ public class TileTrade extends TileLM implements IPaintable, IClientActionTile
 		else if(button.equals(BUTTON_SELL))
 		{
 			canSell = !canSell;
-			markDirty();
-		}
-		else if(button.equals(BUTTON_ONLY_ONE))
-		{
-			sellOnlyOne = (sellOnlyOne + 1) % 3;
-			markDirty();
-		}
-		else if(button.equals(BUTTON_CLEAR))
-		{
-			playersBought.clear();
 			markDirty();
 		}
 	}

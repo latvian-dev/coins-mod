@@ -60,17 +60,11 @@ public class Coins
 		e.registerServerCommand(new CmdCoins());
 		e.registerServerCommand(new CmdSetcoins());
 		
-		addGamerule(e, "coinsDropRarity", "3");
-		addGamerule(e, "coinsScaleAll", "1.0");
-		addGamerule(e, "coinsScaleNeutral", "1.0");
-		addGamerule(e, "coinsScaleHostile", "1.0");
-		addGamerule(e, "coinsScaleBaby", "0.5");
-		addGamerule(e, "coinsScaleBoss", "5.0");
-	}
-	
-	private void addGamerule(FMLServerStartingEvent e, String s, String s1)
-	{
-		if(!e.getServer().worldServers[0].getGameRules().hasRule(s))
-			e.getServer().worldServers[0].getGameRules().addGameRule(s, s1);
+		LatCoreMC.addGamerule(e, "coinsDropRarity", "3");
+		LatCoreMC.addGamerule(e, "coinsScaleAll", "1.0");
+		LatCoreMC.addGamerule(e, "coinsScaleNeutral", "1.0");
+		LatCoreMC.addGamerule(e, "coinsScaleHostile", "1.0");
+		LatCoreMC.addGamerule(e, "coinsScaleBaby", "0.5");
+		LatCoreMC.addGamerule(e, "coinsScaleBoss", "5.0");
 	}
 }

@@ -1,10 +1,7 @@
 package latmod.coins.client.gui;
 
-import java.util.UUID;
-
 import latmod.coins.Coins;
 import latmod.coins.tile.TileTrade;
-import latmod.core.mod.LMPlayer;
 import latmod.core.mod.gui.*;
 import latmod.core.util.*;
 import net.minecraft.client.gui.FontRenderer;
@@ -22,15 +19,14 @@ public class GuiTradeSettings extends GuiLM
 	public TileTrade tile;
 	
 	public TextBoxLM textBoxCoins;
-	public ButtonLM buttonItem, buttonBuy, buttonSell, buttonOnlyOne, buttonClear;
-	public WidgetLM buttonOO1, buttonOO2, buttonOO3;
+	public ButtonLM buttonItem, buttonBuy, buttonSell;
 	
 	public GuiTradeSettings(ContainerTradeSettings c)
 	{
 		super(c, Coins.mod.getLocation("textures/gui/tradeBlock.png"));
 		tile = (TileTrade)c.inv;
 		xSize = 176;
-		ySize = 155;
+		ySize = 134;
 		
 		widgets.add(textBoxCoins = new TextBoxLM(this, 80, 29, 79, 16)
 		{
@@ -94,28 +90,6 @@ public class GuiTradeSettings extends GuiLM
 				tile.clientPressButton(TileTrade.BUTTON_SELL, b);
 			}
 		});
-		
-		widgets.add(buttonOnlyOne = new ButtonLM(this, 8, 51, 67, 16)
-		{
-			public void onButtonPressed(int b)
-			{
-				playClickSound();
-				tile.clientPressButton(TileTrade.BUTTON_ONLY_ONE, b);
-			}
-		});
-		
-		widgets.add(buttonClear = new ButtonLM(this, 143, 51, 16, 16)
-		{
-			public void onButtonPressed(int b)
-			{
-				playClickSound();
-				tile.clientPressButton(TileTrade.BUTTON_CLEAR, b);
-			}
-		});
-		
-		buttonOO1 = new WidgetLM(this, 80, 51, 16, 16);
-		buttonOO2 = new WidgetLM(this, 101, 51, 16, 16);
-		buttonOO3 = new WidgetLM(this, 122, 51, 16, 16);
 	}
 	
 	public void drawGuiContainerBackgroundLayer(float f, int mx, int my)
@@ -126,16 +100,6 @@ public class GuiTradeSettings extends GuiLM
 		if(buttonBuy.mouseOver(mx, my)) buttonBuy.render(button_over);
 		if(tile.canSell) buttonSell.render(button_pressed);
 		if(buttonSell.mouseOver(mx, my)) buttonSell.render(button_over);
-		
-		/*
-		buttonRedstone.render(button_redstone[condenser.redstoneMode.ID]);
-		buttonSecurity.render(button_security[condenser.security.level.ID]);
-		buttonInvMode.render(button_inv[condenser.invMode.ID]);
-		
-		if(condenser.repairTools.isOn())
-			buttonRepairItems.render(button_inner_pressed);
-		
-		buttonSettings.render(button_back);*/
 	}
 	
 	public void drawScreen(int mx, int my, float f)
@@ -143,27 +107,27 @@ public class GuiTradeSettings extends GuiLM
 		super.drawScreen(mx, my, f);
 		
 		GL11.glEnable(GL11.GL_LIGHTING);
-        RenderHelper.enableStandardItemLighting();
-        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240F, 240F);
-        
+		RenderHelper.enableStandardItemLighting();
+		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240F, 240F);
+		
 		if(tile.renderItem != null)
 		{
 			int x = guiLeft + 8;
 			int y = guiTop + 8;
 			
-			GL11.glTranslatef(0.0F, 0.0F, 32.0F);
-			this.zLevel = 200.0F;
-			itemRender.zLevel = 200.0F;
+			GL11.glTranslatef(0F, 0F, 32F);
+			this.zLevel = 200F;
+			itemRender.zLevel = 200F;
 			FontRenderer font = null;
 			if (tile.renderItem != null) font = tile.renderItem.getItem().getFontRenderer(tile.renderItem);
 			if (font == null) font = fontRendererObj;
 			itemRender.renderItemAndEffectIntoGUI(font, this.mc.getTextureManager(), tile.renderItem, x, y);
 			itemRender.renderItemOverlayIntoGUI(font, this.mc.getTextureManager(), tile.renderItem, x, y, null);
-			this.zLevel = 0.0F;
-			itemRender.zLevel = 0.0F;
+			this.zLevel = 0F;
+			itemRender.zLevel = 0F;
 		}
 		
-        RenderHelper.disableStandardItemLighting();
+		RenderHelper.disableStandardItemLighting();
 		
 		GL11.glDisable(GL11.GL_LIGHTING);
 		textBoxCoins.render(83, 33, 0xCECECE);
@@ -181,22 +145,6 @@ public class GuiTradeSettings extends GuiLM
 		
 		if(buttonSell.mouseOver(mx, my))
 			al.add(tile.canSell ? "Enabled" : "Disabled");
-		
-		if(buttonClear.mouseOver(mx, my))
-		{
-			al.add("Reset player list");
-			
-			if(!tile.playersBought.isEmpty())
-			{
-				al.add("");
-				
-				for(UUID id : tile.playersBought)
-				{
-					LMPlayer p = LMPlayer.getPlayer(id);
-					if(p != null) al.add(p.getDisplayName());
-				}
-			}
-		}
 		
 		if(!al.isEmpty()) drawHoveringText(al, mx, my, fontRendererObj);
 	}

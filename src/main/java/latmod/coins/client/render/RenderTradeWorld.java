@@ -32,7 +32,7 @@ public class RenderTradeWorld implements ISimpleBlockRenderingHandler
 		
 		if(t == null || t.isInvalid()) return false;
 		
-		ItemStack tex = t.getPaint();
+		ItemStack tex = t.getPaint(0);
 		Block renderBlock = CoinsItems.b_trade;
 		
 		if(tex == null)
