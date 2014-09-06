@@ -12,6 +12,11 @@ import net.minecraft.nbt.*;
 
 public class TileTrade extends TileLM implements IPaintable, IClientActionTile
 {
+	public static final String BUTTON_BUY = "buy";
+	public static final String BUTTON_SELL = "sell";
+	public static final String BUTTON_ONLY_ONE = "onlyOne";
+	public static final String BUTTON_CLEAR = "onlyOneClear";
+	
 	public ItemStack tradeItem;
 	public ItemStack renderItem;
 	private ItemStack paintItem;
@@ -21,24 +26,12 @@ public class TileTrade extends TileLM implements IPaintable, IClientActionTile
 	public boolean canBuy;
 	public int sellOnlyOne;
 	public final FastList<UUID> playersBought = new FastList<UUID>();
-	public int redstoneTimer;
-	public int redstoneTimerTick;
 	
 	public boolean rerenderBlock()
 	{ return true; }
 	
 	public void onUpdate()
 	{
-		if(!worldObj.isRemote && redstoneTimerTick > 0)
-		{
-			redstoneTimerTick--;
-			
-			if(redstoneTimerTick == 0)
-			{
-				markDirty();
-				worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, blockType);
-			}
-		}
 	}
 	
 	public void readTileData(NBTTagCompound tag)
@@ -66,8 +59,6 @@ public class TileTrade extends TileLM implements IPaintable, IClientActionTile
 			for(int i = 0; i < l.tagCount(); i++)
 				playersBought.add(UUID.fromString(l.getStringTagAt(i)));
 		}
-		
-		redstoneTimer = tag.getByte("RSTimer");
 	}
 	
 	public void writeTileData(NBTTagCompound tag)
@@ -102,14 +93,15 @@ public class TileTrade extends TileLM implements IPaintable, IClientActionTile
 			if(l.tagCount() > 0)
 				tag.setTag("Players", l);
 		}
-		
-		tag.setByte("RSTimer", (byte)redstoneTimer);
 	}
 	
 	public void onPlacedBy(EntityPlayer ep, ItemStack is)
 	{
 		super.onPlacedBy(ep, is);
 		rotation = (byte)LatCoreMC.get2DRotation(ep).ordinal();
+		canBuy = true;
+		canSell = false;
+		price = 0;
 	}
 	
 	public boolean onRightClick(EntityPlayer ep, ItemStack is, int side, float x, float y, float z)
@@ -122,10 +114,10 @@ public class TileTrade extends TileLM implements IPaintable, IClientActionTile
 			return true;
 		}
 		
-		if(price < 0) return true;
-		
 		if(tradeItem != null && tradeItem.getItem() != null)
 		{
+			if(ep.capabilities.isCreativeMode) return true;
+			
 			if(!canBuy)
 			{
 				LatCoreMC.printChat(ep, "This item can't be bought!");
@@ -190,17 +182,41 @@ public class TileTrade extends TileLM implements IPaintable, IClientActionTile
 		return false;
 	}
 	
+	public void handleButton(String button, int mouseButton, EntityPlayer ep)
+	{
+		if(button.equals(BUTTON_BUY))
+		{
+			canBuy = !canBuy;
+			markDirty();
+		}
+		else if(button.equals(BUTTON_SELL))
+		{
+			canSell = !canSell;
+			markDirty();
+		}
+		else if(button.equals(BUTTON_ONLY_ONE))
+		{
+			sellOnlyOne = (sellOnlyOne + 1) % 3;
+			markDirty();
+		}
+		else if(button.equals(BUTTON_CLEAR))
+		{
+			playersBought.clear();
+			markDirty();
+		}
+	}
+	
 	public void onClientAction(EntityPlayer ep, String action, NBTTagCompound data)
 	{
-		if(action.equals("RSTimer"))
-		{
-			redstoneTimer = data.getInteger("Timer");
-		}
-		else if(action.equals("TradeItem"))
+		if(action.equals("Item"))
 		{
 			if(data.hasNoTags())
 				tradeItem = null;
 			else tradeItem = ItemStack.loadItemStackFromNBT(data);
+		}
+		else if(action.equals("Price"))
+		{
+			price = data.getInteger("Price");
 		}
 		else super.onClientAction(ep, action, data);
 		markDirty();

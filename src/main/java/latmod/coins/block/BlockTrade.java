@@ -4,6 +4,7 @@ import latmod.coins.Coins;
 import latmod.coins.tile.TileTrade;
 import latmod.core.mod.*;
 import latmod.core.mod.block.BlockLM;
+import latmod.core.mod.recipes.LMRecipes;
 import latmod.core.mod.tile.TileLM;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
@@ -24,7 +25,7 @@ public class BlockTrade extends BlockLM
 		Coins.mod.addTile(TileTrade.class, s);
 	}
 	
-	public LMMod<?, ?> getMod()
+	public LMMod<? extends LMConfig, ? extends LMRecipes> getMod()
 	{ return Coins.mod; }
 	
 	@SideOnly(Side.CLIENT)
@@ -57,10 +58,11 @@ public class BlockTrade extends BlockLM
 	
 	public int isProvidingWeakPower(IBlockAccess iba, int x, int y, int z, int s)
 	{
-		TileTrade t = (TileTrade)iba.getTileEntity(x, y, z);
-		return (t != null && t.redstoneTimerTick != 0) ? 15 : 0;
+		//TileTrade t = (TileTrade)iba.getTileEntity(x, y, z);
+		//return (t != null && t.redstoneTimerTick != 0) ? 15 : 0;
+		return 0;
 	}
 	
 	public boolean canProvidePower()
-	{ return true; }
+	{ return false; }
 }

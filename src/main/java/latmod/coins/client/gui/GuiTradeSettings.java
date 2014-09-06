@@ -1,11 +1,19 @@
 package latmod.coins.client.gui;
 
+import java.util.UUID;
+
 import latmod.coins.Coins;
 import latmod.coins.tile.TileTrade;
+import latmod.core.mod.LMPlayer;
 import latmod.core.mod.gui.*;
 import latmod.core.util.*;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.renderer.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+
+import org.lwjgl.opengl.GL11;
+
 import cpw.mods.fml.relauncher.*;
 
 @SideOnly(Side.CLIENT)
@@ -13,63 +21,111 @@ public class GuiTradeSettings extends GuiLM
 {
 	public TileTrade tile;
 	
-	public TextBoxLM textBoxRSTimer;
-	public ButtonLM buttonItem, buttonBuy, buttonSell, buttonOnlyOne, buttonRedstone;
+	public TextBoxLM textBoxCoins;
+	public ButtonLM buttonItem, buttonBuy, buttonSell, buttonOnlyOne, buttonClear;
+	public WidgetLM buttonOO1, buttonOO2, buttonOO3;
 	
-	public GuiTradeSettings(ContainerLM c)
+	public GuiTradeSettings(ContainerTradeSettings c)
 	{
 		super(c, Coins.mod.getLocation("textures/gui/tradeBlock.png"));
 		tile = (TileTrade)c.inv;
+		xSize = 176;
+		ySize = 155;
 		
-		widgets.add(textBoxRSTimer = new TextBoxLM(this, 80, 50, 79, 16)
+		widgets.add(textBoxCoins = new TextBoxLM(this, 80, 29, 79, 16)
 		{
 			public boolean canAddChar(char c)
 			{ return c >= '0' && c <= '9' && super.canAddChar(c); }
 			
 			public void textChanged()
 			{
+				if(text.length() == 0) text = "0";
+				
 				Integer t = Converter.parseInt(text);
 				if(t != null)
 				{
-					if(t < -1)
-					{
-						t = -1;
-						textBoxRSTimer.text = "" + t;
-					}
+					if(t < 0) t = 0;
+					if(t >= 20000000) t = 20000000;
+					
+					text = "" + t;
 					
 					NBTTagCompound data = new NBTTagCompound();
-					data.setInteger("Timer", t);
-					tile.sendClientAction("RSTimer", data);
+					data.setInteger("Price", t);
+					tile.sendClientAction("Price", data);
 				}
 			}
 		});
 		
-		textBoxRSTimer.charLimit = 40;
+		textBoxCoins.charLimit = 12;
+		textBoxCoins.text = tile.price + "";
 		
-		if(tile.redstoneTimer > 0)
-			textBoxRSTimer.text = "" + tile.redstoneTimer;
-		
-		widgets.add(buttonItem = new ButtonLM(this, 8, 8, 16, 16)
+		widgets.add(buttonItem = new ButtonLM(this, 7, 7, 18, 18)
 		{
 			public void onButtonPressed(int b)
 			{
 				ItemStack is = container.player.inventory.getItemStack();
 				
 				NBTTagCompound data = new NBTTagCompound();
-				if(is != null) is.writeToNBT(data);
+				if(is != null)
+				{
+					ItemStack is1 = is.copy();
+					if(b == 1) is1.stackSize = 1;
+					is1.writeToNBT(data);
+				}
 				
-				tile.sendClientAction("TradeItem", data);
+				tile.sendClientAction("Item", data);
 			}
 		});
+		
+		widgets.add(buttonBuy = new ButtonLM(this, 80, 8, 16, 16)
+		{
+			public void onButtonPressed(int b)
+			{
+				playClickSound();
+				tile.clientPressButton(TileTrade.BUTTON_BUY, b);
+			}
+		});
+		
+		widgets.add(buttonSell = new ButtonLM(this, 143, 8, 16, 16)
+		{
+			public void onButtonPressed(int b)
+			{
+				playClickSound();
+				tile.clientPressButton(TileTrade.BUTTON_SELL, b);
+			}
+		});
+		
+		widgets.add(buttonOnlyOne = new ButtonLM(this, 8, 51, 67, 16)
+		{
+			public void onButtonPressed(int b)
+			{
+				playClickSound();
+				tile.clientPressButton(TileTrade.BUTTON_ONLY_ONE, b);
+			}
+		});
+		
+		widgets.add(buttonClear = new ButtonLM(this, 143, 51, 16, 16)
+		{
+			public void onButtonPressed(int b)
+			{
+				playClickSound();
+				tile.clientPressButton(TileTrade.BUTTON_CLEAR, b);
+			}
+		});
+		
+		buttonOO1 = new WidgetLM(this, 80, 51, 16, 16);
+		buttonOO2 = new WidgetLM(this, 101, 51, 16, 16);
+		buttonOO3 = new WidgetLM(this, 122, 51, 16, 16);
 	}
 	
-	public void drawGuiContainerBackgroundLayer(float f, int x, int y)
+	public void drawGuiContainerBackgroundLayer(float f, int mx, int my)
 	{
-		textureWidth = textureHeight = 128;
+		super.drawGuiContainerBackgroundLayer(f, mx, my);
 		
-		super.drawGuiContainerBackgroundLayer(f, x, y);
-		
-		textureWidth = textureHeight = 256;
+		if(tile.canBuy) buttonBuy.render(button_pressed);
+		if(buttonBuy.mouseOver(mx, my)) buttonBuy.render(button_over);
+		if(tile.canSell) buttonSell.render(button_pressed);
+		if(buttonSell.mouseOver(mx, my)) buttonSell.render(button_over);
 		
 		/*
 		buttonRedstone.render(button_redstone[condenser.redstoneMode.ID]);
@@ -86,24 +142,61 @@ public class GuiTradeSettings extends GuiLM
 	{
 		super.drawScreen(mx, my, f);
 		
+		GL11.glEnable(GL11.GL_LIGHTING);
+        RenderHelper.enableStandardItemLighting();
+        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240F, 240F);
+        
+		if(tile.renderItem != null)
+		{
+			int x = guiLeft + 8;
+			int y = guiTop + 8;
+			
+			GL11.glTranslatef(0.0F, 0.0F, 32.0F);
+			this.zLevel = 200.0F;
+			itemRender.zLevel = 200.0F;
+			FontRenderer font = null;
+			if (tile.renderItem != null) font = tile.renderItem.getItem().getFontRenderer(tile.renderItem);
+			if (font == null) font = fontRendererObj;
+			itemRender.renderItemAndEffectIntoGUI(font, this.mc.getTextureManager(), tile.renderItem, x, y);
+			itemRender.renderItemOverlayIntoGUI(font, this.mc.getTextureManager(), tile.renderItem, x, y, null);
+			this.zLevel = 0.0F;
+			itemRender.zLevel = 0.0F;
+		}
+		
+        RenderHelper.disableStandardItemLighting();
+		
+		GL11.glDisable(GL11.GL_LIGHTING);
+		textBoxCoins.render(83, 33, 0xCECECE);
+		
 		FastList<String> al = new FastList<String>();
 		
-		/*
-		if(buttonSettings.mouseOver(mx, my))
-			al.add(LC.mod.translate("back"));
+		if(buttonItem.mouseOver(mx, my))
+		{
+			if(tile.renderItem != null)
+				al.add(tile.tradeItem.stackSize + " x " + tile.tradeItem.getDisplayName());
+		}
 		
-		if(buttonRedstone.mouseOver(mx, my))
-			al.add(condenser.redstoneMode.getText());
+		if(buttonBuy.mouseOver(mx, my))
+			al.add(tile.canBuy ? "Enabled" : "Disabled");
 		
-		if(buttonSecurity.mouseOver(mx, my))
-			al.add(condenser.security.level.getText());
+		if(buttonSell.mouseOver(mx, my))
+			al.add(tile.canSell ? "Enabled" : "Disabled");
 		
-		if(buttonInvMode.mouseOver(mx, my))
-			al.add(condenser.invMode.getText());
-		
-		if(buttonRepairItems.mouseOver(mx, my))
-			al.add(condenser.repairTools.getText());
-			*/
+		if(buttonClear.mouseOver(mx, my))
+		{
+			al.add("Reset player list");
+			
+			if(!tile.playersBought.isEmpty())
+			{
+				al.add("");
+				
+				for(UUID id : tile.playersBought)
+				{
+					LMPlayer p = LMPlayer.getPlayer(id);
+					if(p != null) al.add(p.getDisplayName());
+				}
+			}
+		}
 		
 		if(!al.isEmpty()) drawHoveringText(al, mx, my, fontRendererObj);
 	}
