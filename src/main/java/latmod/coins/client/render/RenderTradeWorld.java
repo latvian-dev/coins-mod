@@ -7,7 +7,6 @@ import latmod.core.client.RenderBlocksCustom;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraft.world.IBlockAccess;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.relauncher.*;
@@ -32,18 +31,17 @@ public class RenderTradeWorld implements ISimpleBlockRenderingHandler
 		
 		if(t == null || t.isInvalid()) return false;
 		
-		ItemStack tex = t.getPaint(0);
 		Block renderBlock = CoinsItems.b_trade;
 		
-		if(tex == null)
+		if(t.paintItem == null)
 		{
 			renderBlocks.customMetadata = 0;
 			renderBlocks.setCustomColor(null);
 		}
 		else
 		{
-			renderBlock = Block.getBlockFromItem(tex.getItem());
-			renderBlocks.customMetadata = tex.getItemDamage();
+			renderBlock = Block.getBlockFromItem(t.paintItem.getItem());
+			renderBlocks.customMetadata = t.paintItem.getItemDamage();
 			renderBlocks.setCustomColor(renderBlock.colorMultiplier(iba, x, y, z));
 		}
 		renderBlocks.blockAccess = t.getWorldObj();

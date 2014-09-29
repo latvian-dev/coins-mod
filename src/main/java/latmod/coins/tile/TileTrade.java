@@ -3,9 +3,12 @@ package latmod.coins.tile;
 import latmod.coins.*;
 import latmod.core.*;
 import latmod.core.mod.tile.*;
+import latmod.core.mod.tile.PainterHelper.IPaintable;
+import latmod.core.mod.tile.PainterHelper.PaintData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.MovingObjectPosition;
 
 public class TileTrade extends TileLM implements IPaintable, IClientActionTile
 {
@@ -14,7 +17,7 @@ public class TileTrade extends TileLM implements IPaintable, IClientActionTile
 	
 	public ItemStack tradeItem;
 	public ItemStack renderItem;
-	private ItemStack paintItem;
+	public ItemStack paintItem;
 	public int price;
 	public byte rotation;
 	public boolean canSell;
@@ -135,23 +138,6 @@ public class TileTrade extends TileLM implements IPaintable, IClientActionTile
 		}
 	}
 	
-	public ItemStack getPaint(int s)
-	{ return paintItem; }
-	
-	public boolean setPaint(ItemStack is, EntityPlayer ep, int s)
-	{
-		if(ep != null && !ep.capabilities.isCreativeMode) return false;
-		
-		if(paintItem == null || is == null || !paintItem.isItemEqual(is))
-		{
-			paintItem = is;
-			markDirty();
-			return true;
-		}
-		
-		return false;
-	}
-	
 	public void handleButton(String button, int mouseButton, EntityPlayer ep)
 	{
 		if(button.equals(BUTTON_BUY))
@@ -180,5 +166,24 @@ public class TileTrade extends TileLM implements IPaintable, IClientActionTile
 		}
 		else super.onClientAction(ep, action, data);
 		markDirty();
+	}
+	
+	public boolean setPaint(EntityPlayer ep, MovingObjectPosition mop, ItemStack paint)
+	{
+		if(ep != null && !ep.capabilities.isCreativeMode) return false;
+		
+		if(paintItem == null || paint == null || !paintItem.isItemEqual(paint))
+		{
+			paintItem = paint;
+			markDirty();
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public boolean setPaint(PaintData p)
+	{
+		return false;
 	}
 }
