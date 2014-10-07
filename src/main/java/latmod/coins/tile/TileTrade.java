@@ -1,23 +1,27 @@
 package latmod.coins.tile;
 
 import latmod.coins.*;
+import latmod.coins.client.gui.*;
 import latmod.core.*;
 import latmod.core.mod.tile.*;
 import latmod.core.mod.tile.PainterHelper.IPaintable;
+import latmod.core.mod.tile.PainterHelper.Paint;
 import latmod.core.mod.tile.PainterHelper.PaintData;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.MovingObjectPosition;
+import cpw.mods.fml.relauncher.*;
 
-public class TileTrade extends TileLM implements IPaintable, IClientActionTile
+public class TileTrade extends TileLM implements IPaintable, IClientActionTile, IGuiTile
 {
 	public static final String BUTTON_BUY = "buy";
 	public static final String BUTTON_SELL = "sell";
 	
 	public ItemStack tradeItem;
 	public ItemStack renderItem;
-	public ItemStack paintItem;
+	public Paint[] paint = new Paint[1];
 	public int price;
 	public byte rotation;
 	public boolean canSell;
@@ -37,13 +41,11 @@ public class TileTrade extends TileLM implements IPaintable, IClientActionTile
 		
 		renderItem = (tradeItem == null) ? null : InvUtils.singleCopy(tradeItem);
 		
-		if(!tag.hasKey("Paint")) paintItem = null;
-			paintItem = ItemStack.loadItemStackFromNBT(tag.getCompoundTag("Paint"));
-		
 		price = tag.getInteger("Price");
 		rotation = tag.getByte("Rot");
 		canSell = tag.getBoolean("CanSell");
 		canBuy = tag.getBoolean("CanBuy");
+		Paint.readFromNBT(tag, "Paint", paint);
 	}
 	
 	public void writeTileData(NBTTagCompound tag)
@@ -55,17 +57,11 @@ public class TileTrade extends TileLM implements IPaintable, IClientActionTile
 			tag.setTag("Item", tag1);
 		}
 		
-		if(paintItem != null)
-		{
-			NBTTagCompound tag1 = new NBTTagCompound();
-			paintItem.writeToNBT(tag1);
-			tag.setTag("Paint", tag1);
-		}
-		
 		tag.setInteger("Price", price);
 		tag.setByte("Rot", rotation);
 		tag.setBoolean("CanSell", canSell);
 		tag.setBoolean("CanBuy", canBuy);
+		Paint.writeToNBT(tag, "Paint", paint);
 	}
 	
 	public void onPlacedBy(EntityPlayer ep, ItemStack is)
@@ -83,7 +79,7 @@ public class TileTrade extends TileLM implements IPaintable, IClientActionTile
 		
 		if(ep.capabilities.isCreativeMode && ep.isSneaking())
 		{
-			ep.openGui(Coins.inst, 0, worldObj, xCoord, yCoord, zCoord);
+			LatCoreMC.openGui(ep, this, 0);
 			return true;
 		}
 		
@@ -168,13 +164,11 @@ public class TileTrade extends TileLM implements IPaintable, IClientActionTile
 		markDirty();
 	}
 	
-	public boolean setPaint(EntityPlayer ep, MovingObjectPosition mop, ItemStack paint)
+	public boolean setPaint(PaintData p)
 	{
-		if(ep != null && !ep.capabilities.isCreativeMode) return false;
-		
-		if(paintItem == null || paint == null || !paintItem.isItemEqual(paint))
+		if(p.player.capabilities.isCreativeMode && p.canReplace(paint[0]))
 		{
-			paintItem = paint;
+			paint[0] = p.paint;
 			markDirty();
 			return true;
 		}
@@ -182,8 +176,10 @@ public class TileTrade extends TileLM implements IPaintable, IClientActionTile
 		return false;
 	}
 	
-	public boolean setPaint(PaintData p)
-	{
-		return false;
-	}
+	public Container getContainer(EntityPlayer ep, int ID)
+	{ return new ContainerTradeSettings(ep, this); }
+	
+	@SideOnly(Side.CLIENT)
+	public GuiScreen getGui(EntityPlayer ep, int ID)
+	{ return new GuiTradeSettings(new ContainerTradeSettings(ep, this)); }
 }

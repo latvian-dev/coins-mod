@@ -33,15 +33,15 @@ public class RenderTradeWorld implements ISimpleBlockRenderingHandler
 		
 		Block renderBlock = CoinsItems.b_trade;
 		
-		if(t.paintItem == null)
+		if(t.paint[0] == null)
 		{
 			renderBlocks.customMetadata = 0;
 			renderBlocks.setCustomColor(null);
 		}
 		else
 		{
-			renderBlock = Block.getBlockFromItem(t.paintItem.getItem());
-			renderBlocks.customMetadata = t.paintItem.getItemDamage();
+			renderBlock = t.paint[0].block;
+			renderBlocks.customMetadata = t.paint[0].meta;
 			renderBlocks.setCustomColor(renderBlock.colorMultiplier(iba, x, y, z));
 		}
 		renderBlocks.blockAccess = t.getWorldObj();

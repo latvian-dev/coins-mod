@@ -32,8 +32,6 @@ public class Coins
 		
 		MinecraftForge.EVENT_BUS.register(new CoinsEventHandler());
 		
-		LatCoreMC.addGuiHandler(this, proxy);
-		
 		proxy.preInit();
 		mod.config().save();
 	}
