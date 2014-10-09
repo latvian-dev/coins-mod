@@ -33,7 +33,6 @@ public class Coins
 		MinecraftForge.EVENT_BUS.register(new CoinsEventHandler());
 		
 		proxy.preInit();
-		mod.config().save();
 	}
 	
 	@Mod.EventHandler

@@ -22,7 +22,7 @@ public class PlayerCoins
 			LMPlayer p = LMPlayer.getPlayer(ep.getUniqueID());
 			if(p == null) return;
 			p.customData().setLong("Coins", c);
-			p.sendUpdate(CoinsEventHandler.CHANNEL);
+			p.sendUpdate(ep.worldObj, CoinsEventHandler.CHANNEL);
 		}
 	}
 	

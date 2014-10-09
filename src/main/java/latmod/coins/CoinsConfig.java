@@ -14,8 +14,8 @@ public class CoinsConfig extends LMConfig
 	public CoinsConfig(FMLPreInitializationEvent e)
 	{
 		super(e, "/LatMod/CoinsMod.cfg");
-		
-		add(general = new General());
+		general = new General();
+		save();
 	}
 
 	public class General extends Category
