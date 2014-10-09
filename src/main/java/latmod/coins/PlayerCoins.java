@@ -9,7 +9,7 @@ public class PlayerCoins
 	public static long get(UUID id)
 	{
 		LMPlayer p = LMPlayer.getPlayer(id);
-		if(p == null) return 0L;
+		if(p == null || !p.hasCustomData()) return 0L;
 		return p.customData().getLong("Coins");
 	}
 	
