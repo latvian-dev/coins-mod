@@ -10,7 +10,8 @@ public class WailaTrade extends BasicWailaHandler
 {
 	public WailaTrade() throws Exception
 	{
-		super(false, true, false);
+		super();
+		registerBody = true;
 	}
 	
 	public List<String> getWailaBody(ItemStack is, List<String> l, IWailaDataAccessor data, IWailaConfigHandler config)
