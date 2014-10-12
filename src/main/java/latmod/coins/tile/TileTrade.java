@@ -1,5 +1,7 @@
 package latmod.coins.tile;
 
+import java.util.List;
+
 import latmod.coins.*;
 import latmod.coins.client.gui.*;
 import latmod.core.*;
@@ -7,6 +9,7 @@ import latmod.core.mod.tile.*;
 import latmod.core.mod.tile.PainterHelper.IPaintable;
 import latmod.core.mod.tile.PainterHelper.Paint;
 import latmod.core.mod.tile.PainterHelper.PaintData;
+import mcp.mobius.waila.api.*;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -14,7 +17,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import cpw.mods.fml.relauncher.*;
 
-public class TileTrade extends TileLM implements IPaintable, IClientActionTile, IGuiTile
+public class TileTrade extends TileLM implements IPaintable, IClientActionTile, IGuiTile, IWailaTile.Stack, IWailaTile.Body
 {
 	public static final String BUTTON_BUY = "buy";
 	public static final String BUTTON_SELL = "sell";
@@ -182,4 +185,19 @@ public class TileTrade extends TileLM implements IPaintable, IClientActionTile, 
 	@SideOnly(Side.CLIENT)
 	public GuiScreen getGui(EntityPlayer ep, int ID)
 	{ return new GuiTradeSettings(new ContainerTradeSettings(ep, this)); }
+	
+	public ItemStack getWailaStack(IWailaDataAccessor data, IWailaConfigHandler config)
+	{ return tradeItem; }
+	
+	public void addWailaBody(IWailaDataAccessor data, IWailaConfigHandler config, List<String> info)
+	{
+		if(canBuy || canSell)
+		{
+			if(price == 0) info.add("For free");
+			else info.add("For " + price + " coins");
+			
+			info.add("Buy: " + (canBuy ? "Yes" : "No"));
+			info.add("Sell: " + (canSell ? "Yes" : "No"));
+		}
+	}
 }

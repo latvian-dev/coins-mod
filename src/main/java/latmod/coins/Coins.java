@@ -1,8 +1,6 @@
 package latmod.coins;
 import latmod.coins.commands.*;
-import latmod.coins.tile.*;
 import latmod.core.LatCoreMC;
-import latmod.core.apis.WailaHelper;
 import latmod.core.mod.LMMod;
 import latmod.core.mod.recipes.LMRecipes;
 import net.minecraftforge.common.MinecraftForge;
@@ -44,9 +42,6 @@ public class Coins
 	@Mod.EventHandler
 	public void postInit(FMLPostInitializationEvent e)
 	{
-		try { WailaHelper.registerDataProvider(TileTrade.class, new WailaTrade()); }
-		catch(Exception ex) {}
-		
 		mod.loadRecipes();
 		proxy.postInit();
 	}
