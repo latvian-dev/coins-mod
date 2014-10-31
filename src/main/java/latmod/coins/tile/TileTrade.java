@@ -2,22 +2,20 @@ package latmod.coins.tile;
 
 import java.util.List;
 
-import latmod.coins.*;
+import latmod.coins.PlayerCoins;
 import latmod.coins.client.gui.*;
 import latmod.core.*;
-import latmod.core.mod.tile.*;
-import latmod.core.mod.tile.PainterHelper.IPaintable;
-import latmod.core.mod.tile.PainterHelper.Paint;
-import latmod.core.mod.tile.PainterHelper.PaintData;
+import latmod.core.game.TileLM;
+import latmod.core.tile.*;
 import mcp.mobius.waila.api.*;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
+import net.minecraft.inventory.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import cpw.mods.fml.relauncher.*;
 
-public class TileTrade extends TileLM implements IPaintable, IClientActionTile, IGuiTile, IWailaTile.Stack, IWailaTile.Body
+public class TileTrade extends TileLM implements IPaintable, IClientActionTile, IGuiTile, IWailaTile.Stack, IWailaTile.Body, IInventory
 {
 	public static final String BUTTON_BUY = "buy";
 	public static final String BUTTON_SELL = "sell";

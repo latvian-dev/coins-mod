@@ -2,10 +2,9 @@ package latmod.coins.block;
 
 import latmod.coins.Coins;
 import latmod.coins.tile.TileTrade;
+import latmod.core.game.*;
 import latmod.core.mod.*;
-import latmod.core.mod.block.BlockLM;
 import latmod.core.mod.recipes.LMRecipes;
-import latmod.core.mod.tile.TileLM;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -30,7 +29,7 @@ public class BlockTrade extends BlockLM
 	
 	@SideOnly(Side.CLIENT)
 	public CreativeTabs getCreativeTabToDisplayOn()
-	{ return LC.tab; }
+	{ return CreativeTabs.tabMisc; }
 	
 	public void onBlockClicked(World w, int x, int y, int z, EntityPlayer ep)
 	{
