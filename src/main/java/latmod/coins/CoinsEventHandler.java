@@ -1,7 +1,6 @@
 package latmod.coins;
-import latmod.core.EnumDyeColor;
+import latmod.core.*;
 import latmod.core.client.LMRenderer;
-import latmod.core.mod.LMPlayer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EntityDamageSource;

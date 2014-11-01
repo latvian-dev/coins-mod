@@ -2,7 +2,7 @@ package latmod.coins.client.gui;
 
 import latmod.coins.Coins;
 import latmod.coins.tile.TileTrade;
-import latmod.core.mod.gui.*;
+import latmod.core.gui.*;
 import latmod.core.util.*;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.*;

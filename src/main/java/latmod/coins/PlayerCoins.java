@@ -1,7 +1,7 @@
 package latmod.coins;
 import java.util.UUID;
 
-import latmod.core.mod.LMPlayer;
+import latmod.core.LMPlayer;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class PlayerCoins

@@ -5,7 +5,6 @@ import java.util.List;
 import latmod.coins.PlayerCoins;
 import latmod.coins.client.gui.*;
 import latmod.core.*;
-import latmod.core.game.TileLM;
 import latmod.core.tile.*;
 import mcp.mobius.waila.api.*;
 import net.minecraft.client.gui.GuiScreen;

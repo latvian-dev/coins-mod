@@ -2,9 +2,10 @@ package latmod.coins.block;
 
 import latmod.coins.Coins;
 import latmod.coins.tile.TileTrade;
-import latmod.core.game.*;
-import latmod.core.mod.*;
-import latmod.core.mod.recipes.LMRecipes;
+import latmod.core.*;
+import latmod.core.block.BlockLM;
+import latmod.core.recipes.LMRecipes;
+import latmod.core.tile.TileLM;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;

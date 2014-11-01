@@ -1,8 +1,7 @@
 package latmod.coins;
 import latmod.coins.commands.*;
-import latmod.core.LatCoreMC;
-import latmod.core.mod.LMMod;
-import latmod.core.mod.recipes.LMRecipes;
+import latmod.core.*;
+import latmod.core.recipes.LMRecipes;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.*;
 import cpw.mods.fml.common.event.*;

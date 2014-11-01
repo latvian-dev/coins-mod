@@ -1,5 +1,5 @@
 package latmod.coins;
-import latmod.core.mod.LMConfig;
+import latmod.core.LMConfig;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.monster.IMob;
