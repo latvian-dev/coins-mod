@@ -1,24 +1,17 @@
 package latmod.coins;
-import latmod.coins.block.BlockTrade;
 import latmod.coins.client.render.*;
 import latmod.coins.tile.TileTrade;
+import latmod.core.LMProxy;
 import latmod.core.client.LatCoreMCClient;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.relauncher.*;
 
 @SideOnly(Side.CLIENT)
-public class CoinsClient extends CoinsCommon
+public class CoinsClient extends LMProxy
 {
-	public void preInit()
+	public void preInit(FMLPreInitializationEvent e)
 	{
-		LatCoreMCClient.addBlockRenderer(BlockTrade.renderID = LatCoreMCClient.getNewBlockRenderID(), new RenderTradeWorld());
+		RenderTradeWorld.instance.register();
 		LatCoreMCClient.addTileRenderer(TileTrade.class, new RenderTrade());
-	}
-
-	public void init()
-	{
-	}
-
-	public void postInit()
-	{
 	}
 }

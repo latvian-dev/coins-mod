@@ -1,6 +1,7 @@
 package latmod.coins.block;
 
 import latmod.coins.Coins;
+import latmod.coins.client.render.RenderTradeWorld;
 import latmod.coins.tile.TileTrade;
 import latmod.core.*;
 import latmod.core.block.BlockLM;
@@ -15,8 +16,6 @@ import cpw.mods.fml.relauncher.*;
 
 public class BlockTrade extends BlockLM
 {
-	public static int renderID = -1;
-	
 	public BlockTrade(String s)
 	{
 		super(s, Material.wood);
@@ -41,8 +40,9 @@ public class BlockTrade extends BlockLM
 	public TileLM createNewTileEntity(World w, int m)
 	{ return new TileTrade(); }
 	
+	@SideOnly(Side.CLIENT)
 	public int getRenderType()
-	{ return renderID; }
+	{ return RenderTradeWorld.instance.getRenderId(); }
 	
 	public boolean isOpaqueCube()
 	{ return false; }

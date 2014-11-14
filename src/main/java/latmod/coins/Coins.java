@@ -1,4 +1,5 @@
 package latmod.coins;
+import latmod.coins.block.BlockTrade;
 import latmod.coins.commands.*;
 import latmod.core.*;
 import latmod.core.recipes.LMRecipes;
@@ -14,35 +15,38 @@ public class Coins
 	@Mod.Instance(Coins.MOD_ID)
 	public static Coins inst;
 	
-	@SidedProxy(clientSide = "latmod.coins.CoinsClient", serverSide = "latmod.coins.CoinsCommon")
-	public static CoinsCommon proxy;
+	@SidedProxy(clientSide = "latmod.coins.CoinsClient", serverSide = "latmod.core.LMProxy")
+	public static LMProxy proxy;
 	
 	public static LMMod<CoinsConfig, LMRecipes> mod;
+	
+	public static BlockTrade b_trade;
 	
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent e)
 	{
 		mod = new LMMod<CoinsConfig, LMRecipes>(MOD_ID, new CoinsConfig(e), new LMRecipes(false));
 		
-		CoinsItems.init();
+		b_trade = new BlockTrade("tradeBlock").register();
+		
 		mod.onPostLoaded();
 		
 		MinecraftForge.EVENT_BUS.register(new CoinsEventHandler());
 		
-		proxy.preInit();
+		proxy.preInit(e);
 	}
 	
 	@Mod.EventHandler
 	public void init(FMLInitializationEvent e)
 	{
-		proxy.init();
+		proxy.init(e);
 	}
 	
 	@Mod.EventHandler
 	public void postInit(FMLPostInitializationEvent e)
 	{
 		mod.loadRecipes();
-		proxy.postInit();
+		proxy.postInit(e);
 	}
 	
 	@Mod.EventHandler()
