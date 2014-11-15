@@ -1,6 +1,6 @@
 package latmod.coins;
 import latmod.core.*;
-import latmod.core.client.LMRenderer;
+import latmod.core.client.LMRenderHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EntityDamageSource;
@@ -51,7 +51,7 @@ public class CoinsEventHandler
 			
 			coinsAlpha--;
 			
-			int col1 = LMRenderer.getColor((clientCoins < prevCoins) ? EnumDyeColor.RED.color : EnumDyeColor.LIME.color, coinsAlpha);
+			int col1 = LMRenderHelper.getColor((clientCoins < prevCoins) ? EnumDyeColor.RED.color : EnumDyeColor.LIME.color, coinsAlpha);
 			
 			mc.fontRenderer.drawString("Coins: " + clientCoins, 4, e.resolution.getScaledHeight() - 12, col1);
 		}

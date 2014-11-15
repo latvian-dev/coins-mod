@@ -1,7 +1,7 @@
 package latmod.coins.client.render;
 
 import latmod.coins.tile.TileTrade;
-import latmod.core.client.LMRenderer;
+import latmod.core.client.LMRenderHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
@@ -56,7 +56,7 @@ public class RenderTrade extends TileEntitySpecialRenderer
 				float iS = 1.2F;
 				GL11.glScalef(-iS, -iS, iS);
 				
-				LMRenderer.renderItem(t.getWorldObj(), t.renderItem, true, true);
+				LMRenderHelper.renderItem(t.getWorldObj(), t.renderItem, true, true);
 				
 				GL11.glPopMatrix();
 			}
