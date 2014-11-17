@@ -1,10 +1,9 @@
 package latmod.coins;
-import latmod.core.LMConfig;
+import latmod.core.*;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.world.World;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
 public class CoinsConfig extends LMConfig
@@ -26,8 +25,8 @@ public class CoinsConfig extends LMConfig
 		}
 	}
 	
-	private double getGameRuleD(World w, String s)
-	{ return Double.parseDouble(w.getGameRules().getGameRuleStringValue(s)); }
+	public double getGameRuleD(String s)
+	{ return LMGamerules.get("coins", s, 0D).doubleValue(); }
 	
 	public double getMaxDroppedCoinsFor(EntityLivingBase e)
 	{
@@ -35,18 +34,18 @@ public class CoinsConfig extends LMConfig
 		
 		double l = e.getMaxHealth();
 		
-		l *= getGameRuleD(e.worldObj, "coinsScaleAll");
+		l *= getGameRuleD("scaleAll");
 		
 		if(e instanceof IMob)
-			l *= getGameRuleD(e.worldObj, "coinsScaleHostile");
+			l *= getGameRuleD("scaleHostile");
 		else
-			l *= getGameRuleD(e.worldObj, "coinsScaleNeutral");
+			l *= getGameRuleD("scaleNeutral");
 		
 		if(e instanceof IBossDisplayData)
-			l *= getGameRuleD(e.worldObj, "coinsScaleBoss");
+			l *= getGameRuleD("scaleBoss");
 		
 		if(e.getAge() < 0)
-			l *= getGameRuleD(e.worldObj, "coinsScaleBaby");
+			l *= getGameRuleD("scaleBaby");
 		
 		return (int)l;
 	}

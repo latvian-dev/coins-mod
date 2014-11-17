@@ -55,11 +55,12 @@ public class Coins
 		e.registerServerCommand(new CmdCoins());
 		e.registerServerCommand(new CmdSetcoins());
 		
-		LatCoreMC.addGamerule(e, "coinsDropRarity", "3");
-		LatCoreMC.addGamerule(e, "coinsScaleAll", "1.0");
-		LatCoreMC.addGamerule(e, "coinsScaleNeutral", "1.0");
-		LatCoreMC.addGamerule(e, "coinsScaleHostile", "1.0");
-		LatCoreMC.addGamerule(e, "coinsScaleBaby", "0.5");
-		LatCoreMC.addGamerule(e, "coinsScaleBoss", "5.0");
+		String s = "coins";
+		LMGamerules.add(s, "dropRarity", "3");
+		LMGamerules.add(s, "scaleAll", "1.0");
+		LMGamerules.add(s, "scaleNeutral", "1.0");
+		LMGamerules.add(s, "scaleHostile", "1.0");
+		LMGamerules.add(s, "scaleBaby", "0.5");
+		LMGamerules.add(s, "scaleBoss", "5.0");
 	}
 }
