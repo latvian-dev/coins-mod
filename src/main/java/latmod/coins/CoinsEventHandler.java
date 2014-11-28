@@ -67,4 +67,14 @@ public class CoinsEventHandler
 			clientCoins = PlayerCoins.get(e.player.uuid);
 		}
 	}
+	
+	@SubscribeEvent
+	public void onPlayerLoggedIn(LMPlayer.LMPlayerLoggedInEvent e)
+	{
+		if(e.firstTime && LatCoreMC.isServer())
+		{
+			long c = LMGamerules.get(Coins.RULE_INIT_COINS).getNum().longValue();
+			PlayerCoins.set(e.entityPlayer, c);
+		}
+	}
 }

@@ -197,4 +197,7 @@ public class TileTrade extends TileLM implements IPaintable, IClientActionTile, 
 			info.add("Sell: " + (canSell ? "Yes" : "No"));
 		}
 	}
+
+	public Paint[] getPaint()
+	{ return new Paint[]{ paint[0], paint[0], paint[0], paint[0], paint[0], paint[0] }; }
 }

@@ -22,6 +22,15 @@ public class Coins
 	
 	public static BlockTrade b_trade;
 	
+	public static final String RULE_GROUP = "coins";
+	public static LMGamerules.RuleID RULE_DROP_RARITY = new LMGamerules.RuleID(RULE_GROUP, "dropRarity");
+	public static LMGamerules.RuleID RULE_SCALE_ALL = new LMGamerules.RuleID(RULE_GROUP, "scaleAll");
+	public static LMGamerules.RuleID RULE_SCALE_NEUTRAL = new LMGamerules.RuleID(RULE_GROUP, "scaleNeutral");
+	public static LMGamerules.RuleID RULE_SCALE_HOSTILE = new LMGamerules.RuleID(RULE_GROUP, "scaleHostile");
+	public static LMGamerules.RuleID RULE_SCALE_BABY = new LMGamerules.RuleID(RULE_GROUP, "scaleBaby");
+	public static LMGamerules.RuleID RULE_SCALE_BOSS = new LMGamerules.RuleID(RULE_GROUP, "scaleBoss");
+	public static LMGamerules.RuleID RULE_INIT_COINS = new LMGamerules.RuleID(RULE_GROUP, "initCoins");
+	
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent e)
 	{
@@ -47,20 +56,20 @@ public class Coins
 	{
 		mod.loadRecipes();
 		proxy.postInit(e);
+		
+		LMGamerules.register(RULE_DROP_RARITY, 3);
+		LMGamerules.register(RULE_SCALE_ALL, 1D);
+		LMGamerules.register(RULE_SCALE_NEUTRAL, 1D);
+		LMGamerules.register(RULE_SCALE_HOSTILE, 1D);
+		LMGamerules.register(RULE_SCALE_BABY, 0.5D);
+		LMGamerules.register(RULE_SCALE_BOSS, 5D);
+		LMGamerules.register(RULE_INIT_COINS, 0);
 	}
 	
-	@Mod.EventHandler()
+	@Mod.EventHandler
 	public void registerCommands(FMLServerStartingEvent e)
 	{
 		e.registerServerCommand(new CmdCoins());
 		e.registerServerCommand(new CmdSetcoins());
-		
-		String s = "coins";
-		LMGamerules.add(s, "dropRarity", "3");
-		LMGamerules.add(s, "scaleAll", "1.0");
-		LMGamerules.add(s, "scaleNeutral", "1.0");
-		LMGamerules.add(s, "scaleHostile", "1.0");
-		LMGamerules.add(s, "scaleBaby", "0.5");
-		LMGamerules.add(s, "scaleBoss", "5.0");
 	}
 }

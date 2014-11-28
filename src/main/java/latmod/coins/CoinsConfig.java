@@ -25,27 +25,24 @@ public class CoinsConfig extends LMConfig
 		}
 	}
 	
-	public double getGameRuleD(String s)
-	{ return LMGamerules.get("coins", s, 0D).doubleValue(); }
-	
 	public double getMaxDroppedCoinsFor(EntityLivingBase e)
 	{
 		if(e == null || e instanceof EntityPlayer) return 0D;
 		
 		double l = e.getMaxHealth();
 		
-		l *= getGameRuleD("scaleAll");
+		l *= LMGamerules.get(Coins.RULE_SCALE_ALL).getNum().doubleValue();
 		
 		if(e instanceof IMob)
-			l *= getGameRuleD("scaleHostile");
+			l *= LMGamerules.get(Coins.RULE_SCALE_HOSTILE).getNum().doubleValue();
 		else
-			l *= getGameRuleD("scaleNeutral");
+			l *= LMGamerules.get(Coins.RULE_SCALE_NEUTRAL).getNum().doubleValue();
 		
 		if(e instanceof IBossDisplayData)
-			l *= getGameRuleD("scaleBoss");
+			l *= LMGamerules.get(Coins.RULE_SCALE_BOSS).getNum().doubleValue();
 		
 		if(e.getAge() < 0)
-			l *= getGameRuleD("scaleBaby");
+			l *= LMGamerules.get(Coins.RULE_SCALE_BABY).getNum().doubleValue();
 		
 		return (int)l;
 	}

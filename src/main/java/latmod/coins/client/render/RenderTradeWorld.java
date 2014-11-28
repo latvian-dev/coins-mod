@@ -3,6 +3,7 @@ package latmod.coins.client.render;
 import latmod.coins.Coins;
 import latmod.coins.tile.TileTrade;
 import latmod.core.client.BlockRendererLM;
+import latmod.core.tile.IPaintable;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.init.Blocks;
@@ -29,23 +30,9 @@ public class RenderTradeWorld extends BlockRendererLM
 		
 		if(t == null || t.isInvalid()) return false;
 		
-		Block renderBlock = Coins.b_trade;
-		
-		if(t.paint[0] == null)
-		{
-			renderBlocks.customMetadata = 0;
-			renderBlocks.setCustomColor(null);
-		}
-		else
-		{
-			renderBlock = t.paint[0].block;
-			renderBlocks.customMetadata = t.paint[0].meta;
-			renderBlocks.setCustomColor(renderBlock.colorMultiplier(iba, x, y, z));
-		}
 		renderBlocks.blockAccess = t.getWorldObj();
 		renderBlocks.clearOverrideBlockTexture();
-		renderBlocks.setRenderBounds(0D, 0D, 0D, 1D, 1D, 1D);
-		renderBlocks.renderStandardBlock(renderBlock, t.xCoord, t.yCoord, t.zCoord);
+		IPaintable.Renderer.renderCube(renderBlocks, t.getPaint(), IPaintable.Renderer.to6(Coins.b_trade.getIcon(0, 0)), x, y, z, renderBlocks.fullBlock);
 		
 		return true;
 	}
