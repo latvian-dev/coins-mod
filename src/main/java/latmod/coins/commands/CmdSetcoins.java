@@ -28,7 +28,7 @@ public class CmdSetcoins extends CommandBase
 			long i0 = PlayerCoins.get(ep.getUniqueID());
 			
 			int i = parseInt(ics, rel ? (args[0].length() == 1 ? "0" : args[0].substring(1)) : args[0]);
-			PlayerCoins.set(ep, rel ? (i0 + i) : i);
+			PlayerCoins.set(ep.getUniqueID(), rel ? (i0 + i) : i);
 			
 			if(rel) LatCoreMC.printChat(ics, "Added " + i + " coins. " + ep.getCommandSenderName() + " now has " + (i + i0) + " coins");
 			else LatCoreMC.printChat(ics, "Coins set to: " + i);

@@ -35,7 +35,7 @@ public class CoinsEventHandler
 			
 			int l = e.entity.worldObj.rand.nextInt((int)max) + 1;
 			
-			if(l > 0) PlayerCoins.add((EntityPlayer)(((EntityDamageSource)e.source).getEntity()), l);
+			if(l > 0) PlayerCoins.add(((EntityDamageSource)e.source).getEntity().getUniqueID(), l);
 		}
 	}
 	
@@ -74,7 +74,7 @@ public class CoinsEventHandler
 		if(e.firstTime && LatCoreMC.isServer())
 		{
 			long c = LMGamerules.get(Coins.RULE_INIT_COINS).getNum().longValue();
-			PlayerCoins.set(e.entityPlayer, c);
+			PlayerCoins.set(e.player.uuid, c);
 		}
 	}
 }

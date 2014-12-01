@@ -95,7 +95,7 @@ public class TileTrade extends TileLM implements IPaintable, IClientActionTile, 
 			
 			if(price != 0)
 			{
-				if(!ep.capabilities.isCreativeMode && !PlayerCoins.take(ep, price, true))
+				if(!ep.capabilities.isCreativeMode && !PlayerCoins.take(ep.getUniqueID(), price, true))
 				{
 					LatCoreMC.printChat(ep, "You can't afford that!");
 					return true;
@@ -129,7 +129,7 @@ public class TileTrade extends TileLM implements IPaintable, IClientActionTile, 
 			if(neededSize <= 0)
 			{
 				InvUtils.reduceItemInInv(ep.inventory, InvUtils.getPlayerSlots(ep), tradeItem, tradeItem.stackSize);
-				PlayerCoins.set(ep, PlayerCoins.get(ep.getUniqueID()) + price);
+				PlayerCoins.set(ep.getUniqueID(), PlayerCoins.get(ep.getUniqueID()) + price);
 			}
 		}
 	}

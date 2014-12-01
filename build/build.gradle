@@ -1,3 +1,7 @@
+def mod_name = "CoinsMod";
+def mod_group = "latmod.coins";
+def mod_class = "Coins.java";
+
 buildscript {
     repositories {
         mavenCentral()
@@ -26,35 +30,35 @@ configFile.withReader {
 }
 
 version = config.version_mc + "-" + config.version_mods
-group = "latmod.coins"
-archivesBaseName = config.name_coins
+group = mod_group
+archivesBaseName = mod_name
 
 minecraft {
     version = config.version_mc + "-" + config.version_forge
     runDir = "eclipse/assets"
     
     replace "@VERSION@", config.version_mods
-    replaceIn "Coins.java"
+    replaceIn mod_class
 }
 
 dependencies {
-	compile files("sources/Files/" + config.version_mc + "/" + config.name_latcoremc + "/" + config.name_latcoremc + "-" + config.version_mc + "-" + config.version_mods + "-dev.jar")
+    compile files("sources/Exported/LatCoreMC-" + config.version_mc + "-" + config.version_mods + "-dev.jar")
 }
 
 sourceSets {
     main {
         java {
-            srcDir "sources/" + config.name_coins + "/src/main/java"
+            srcDir "\\\\LATMODPC\\ProjMCP/" + mod_name + "/src/main/java"
         }
         resources {
-            srcDir "sources/" + config.name_coins + "/src/main/resources"
+            srcDir "\\\\LATMODPC\\ProjMCP/" + mod_name + "/src/main/resources"
         }
     }
 }
 
 tasks.withType(Jar)
 {
-    destinationDir = file("$rootDir/sources/Files/" + config.version_mc + "/" + config.name_coins)
+    destinationDir = file("$rootDir/sources/Exported")
 }
 
 processResources
@@ -76,10 +80,3 @@ processResources
         exclude 'mcmod.info'
     }
 }
-
-task deobfJar(type: Jar) {
-    from sourceSets.main.output
-    classifier = 'dev'
-}
-
-build.dependsOn deobfJar

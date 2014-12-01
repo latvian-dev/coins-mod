@@ -2,7 +2,6 @@ package latmod.coins;
 import java.util.UUID;
 
 import latmod.core.LMPlayer;
-import net.minecraft.entity.player.EntityPlayer;
 
 public class PlayerCoins
 {
@@ -13,31 +12,31 @@ public class PlayerCoins
 		return p.customData().getLong("Coins");
 	}
 	
-	public static void set(EntityPlayer ep, long c)
+	public static void set(UUID id, long c)
 	{
-		long c0 = get(ep.getUniqueID());
+		long c0 = get(id);
 		
 		if(c0 != c)
 		{
-			LMPlayer p = LMPlayer.getPlayer(ep.getUniqueID());
+			LMPlayer p = LMPlayer.getPlayer(id);
 			if(p == null) return;
 			p.customData().setLong("Coins", c);
-			p.sendUpdate(ep.worldObj, CoinsEventHandler.CHANNEL);
+			p.sendUpdate(CoinsEventHandler.CHANNEL);
 		}
 	}
 	
-	public static void add(EntityPlayer ep, long c)
-	{ set(ep, get(ep.getUniqueID()) + c); }
+	public static void add(UUID id, long c)
+	{ set(id, get(id) + c); }
 	
-	public static boolean take(EntityPlayer ep, long c, boolean doTake)
+	public static boolean take(UUID id, long c, boolean doTake)
 	{
-		if(ep == null || c <= 0) return false;
+		if(c <= 0) return false;
 		
-		long c0 = get(ep.getUniqueID());
+		long c0 = get(id);
 		
 		if(c0 >= c)
 		{
-			if(doTake) set(ep, c0 - c);
+			if(doTake) set(id, c0 - c);
 			return true;
 		}
 		
