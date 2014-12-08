@@ -3,9 +3,8 @@ package latmod.coins.block;
 import latmod.coins.Coins;
 import latmod.coins.client.render.RenderTradeWorld;
 import latmod.coins.tile.TileTrade;
-import latmod.core.*;
+import latmod.core.LMMod;
 import latmod.core.block.BlockLM;
-import latmod.core.recipes.LMRecipes;
 import latmod.core.tile.TileLM;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
@@ -24,7 +23,7 @@ public class BlockTrade extends BlockLM
 		Coins.mod.addTile(TileTrade.class, s);
 	}
 	
-	public LMMod<? extends LMConfig, ? extends LMRecipes> getMod()
+	public LMMod getMod()
 	{ return Coins.mod; }
 	
 	@SideOnly(Side.CLIENT)

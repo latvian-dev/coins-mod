@@ -2,6 +2,9 @@ package latmod.coins;
 import latmod.core.*;
 import latmod.core.client.LMRenderHelper;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.boss.IBossDisplayData;
+import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -20,6 +23,28 @@ public class CoinsEventHandler
 	public long clientCoins = 0L;
 	public long prevCoins = 0L;
 	
+	public double getMaxDroppedCoinsFor(EntityLivingBase e)
+	{
+		if(e == null || e instanceof EntityPlayer) return 0D;
+		
+		double l = e.getMaxHealth();
+		
+		l *= LMGamerules.get(Coins.RULE_SCALE_ALL).getNum().doubleValue();
+		
+		if(e instanceof IMob)
+			l *= LMGamerules.get(Coins.RULE_SCALE_HOSTILE).getNum().doubleValue();
+		else
+			l *= LMGamerules.get(Coins.RULE_SCALE_NEUTRAL).getNum().doubleValue();
+		
+		if(e instanceof IBossDisplayData)
+			l *= LMGamerules.get(Coins.RULE_SCALE_BOSS).getNum().doubleValue();
+		
+		if(e.getAge() < 0)
+			l *= LMGamerules.get(Coins.RULE_SCALE_BABY).getNum().doubleValue();
+		
+		return (int)l;
+	}
+	
 	@SubscribeEvent
 	public void onEntityLivingDrops(LivingDeathEvent e)
 	{
@@ -29,7 +54,7 @@ public class CoinsEventHandler
 			
 			if(e.entity.worldObj.rand.nextInt(rarity) != 0) return;
 			
-			double max = Coins.mod.config().getMaxDroppedCoinsFor(e.entityLiving);
+			double max = getMaxDroppedCoinsFor(e.entityLiving);
 			
 			if(max < 1D) return;
 			
