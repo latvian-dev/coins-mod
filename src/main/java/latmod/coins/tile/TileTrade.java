@@ -67,7 +67,7 @@ public class TileTrade extends TileLM implements IPaintable, IClientActionTile, 
 	public void onPlacedBy(EntityPlayer ep, ItemStack is)
 	{
 		super.onPlacedBy(ep, is);
-		rotation = (byte)LatCoreMC.get2DRotation(ep).ordinal();
+		rotation = (byte)MathHelper.get2DRotation(ep).ordinal();
 		canBuy = true;
 		canSell = false;
 		price = 0;

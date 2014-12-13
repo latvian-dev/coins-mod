@@ -1,8 +1,8 @@
 package latmod.coins.client.gui;
 
+import latmod.core.gui.ContainerLM;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
-import latmod.core.gui.ContainerLM;
 
 public class ContainerTradeSettings extends ContainerLM
 {
