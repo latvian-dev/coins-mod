@@ -2,7 +2,6 @@ package latmod.coins;
 import latmod.coins.block.BlockTrade;
 import latmod.coins.commands.*;
 import latmod.core.*;
-import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.*;
 import cpw.mods.fml.common.event.*;
 
@@ -39,7 +38,7 @@ public class Coins
 		
 		mod.onPostLoaded();
 		
-		MinecraftForge.EVENT_BUS.register(new CoinsEventHandler());
+		LatCoreMC.addEventHandler(CoinsEventHandler.instance, true, false, true);
 		
 		proxy.preInit(e);
 	}

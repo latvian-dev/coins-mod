@@ -1,6 +1,7 @@
 package latmod.coins;
 import latmod.core.*;
 import latmod.core.client.LMRenderHelper;
+import latmod.core.event.LMPlayerEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.IBossDisplayData;
@@ -17,6 +18,8 @@ import cpw.mods.fml.relauncher.*;
 
 public class CoinsEventHandler
 {
+	public static final CoinsEventHandler instance = new CoinsEventHandler();
+	
 	public static final String CHANNEL = "Coins";
 	
 	public int coinsAlpha = 0;
@@ -50,7 +53,7 @@ public class CoinsEventHandler
 	{
 		if(!e.entity.worldObj.isRemote && e.source != null && e.source instanceof EntityDamageSource && ((EntityDamageSource)e.source).getEntity() instanceof EntityPlayer)
 		{
-			int rarity = Integer.parseInt(e.entity.worldObj.getGameRules().getGameRuleStringValue("coinsDropRarity"));
+			int rarity = LMGamerules.get(Coins.RULE_DROP_RARITY).getNum().intValue();
 			
 			if(e.entity.worldObj.rand.nextInt(rarity) != 0) return;
 			
@@ -83,7 +86,7 @@ public class CoinsEventHandler
 	}
 	
 	@SubscribeEvent
-	public void dataChanged(LMPlayer.DataChangedEvent e)
+	public void dataChanged(LMPlayerEvent.DataChanged e)
 	{
 		if(e.isChannel(CHANNEL) && e.side.isClient())
 		{
@@ -94,7 +97,7 @@ public class CoinsEventHandler
 	}
 	
 	@SubscribeEvent
-	public void onPlayerLoggedIn(LMPlayer.LMPlayerLoggedInEvent e)
+	public void onPlayerLoggedIn(LMPlayerEvent.LoggedIn e)
 	{
 		if(e.firstTime && LatCoreMC.isServer())
 		{

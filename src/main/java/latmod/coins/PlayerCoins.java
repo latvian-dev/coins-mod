@@ -8,8 +8,7 @@ public class PlayerCoins
 	public static long get(UUID id)
 	{
 		LMPlayer p = LMPlayer.getPlayer(id);
-		if(p == null || !p.hasCustomData()) return 0L;
-		return p.customData().getLong("Coins");
+		return (p == null) ? 0L : p.customData.getLong("Coins");
 	}
 	
 	public static void set(UUID id, long c)
@@ -20,7 +19,7 @@ public class PlayerCoins
 		{
 			LMPlayer p = LMPlayer.getPlayer(id);
 			if(p == null) return;
-			p.customData().setLong("Coins", c);
+			p.customData.setLong("Coins", c);
 			p.sendUpdate(CoinsEventHandler.CHANNEL);
 		}
 	}
