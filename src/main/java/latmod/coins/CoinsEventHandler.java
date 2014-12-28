@@ -1,30 +1,19 @@
 package latmod.coins;
-import latmod.core.*;
-import latmod.core.client.LMRenderHelper;
+import latmod.core.LMGamerules;
 import latmod.core.event.LMPlayerEvent;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EntityDamageSource;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
-
-import org.lwjgl.opengl.GL11;
-
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.relauncher.*;
 
 public class CoinsEventHandler
 {
 	public static final CoinsEventHandler instance = new CoinsEventHandler();
 	
 	public static final String CHANNEL = "Coins";
-	
-	public int coinsAlpha = 0;
-	public long clientCoins = 0L;
-	public long prevCoins = 0L;
 	
 	public double getMaxDroppedCoinsFor(EntityLivingBase e)
 	{
@@ -67,39 +56,10 @@ public class CoinsEventHandler
 		}
 	}
 	
-	@SideOnly(Side.CLIENT)
-	@SubscribeEvent
-	public void renderCoinsIngame(RenderGameOverlayEvent.Pre e)
-	{
-		if(coinsAlpha > 0 && e.type == RenderGameOverlayEvent.ElementType.CHAT)
-		{
-			GL11.glColor4f(1F, 1F, 1F, 1F);
-			
-			Minecraft mc = Minecraft.getMinecraft();
-			
-			coinsAlpha--;
-			
-			int col1 = LMRenderHelper.getColor((clientCoins < prevCoins) ? EnumDyeColor.RED.color : EnumDyeColor.LIME.color, coinsAlpha);
-			
-			mc.fontRenderer.drawString("Coins: " + clientCoins, 4, e.resolution.getScaledHeight() - 12, col1);
-		}
-	}
-	
-	@SubscribeEvent
-	public void dataChanged(LMPlayerEvent.DataChanged e)
-	{
-		if(e.isChannel(CHANNEL) && e.side.isClient())
-		{
-			coinsAlpha = 255;
-			prevCoins = clientCoins;
-			clientCoins = PlayerCoins.get(e.player.uuid);
-		}
-	}
-	
 	@SubscribeEvent
 	public void onPlayerLoggedIn(LMPlayerEvent.LoggedIn e)
 	{
-		if(e.firstTime && LatCoreMC.isServer())
+		if(e.firstTime && e.side.isServer())
 		{
 			long c = LMGamerules.get(Coins.RULE_INIT_COINS).getNum().longValue();
 			PlayerCoins.set(e.player.uuid, c);

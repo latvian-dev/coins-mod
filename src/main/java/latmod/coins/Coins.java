@@ -13,21 +13,23 @@ public class Coins
 	@Mod.Instance(Coins.MOD_ID)
 	public static Coins inst;
 	
-	@SidedProxy(clientSide = "latmod.coins.CoinsClient", serverSide = "latmod.core.LMProxy")
+	@SidedProxy(clientSide = "latmod.coins.client.CoinsClient", serverSide = "latmod.core.LMProxy")
 	public static LMProxy proxy;
 	
 	public static LMMod mod;
 	
 	public static BlockTrade b_trade;
 	
-	public static final String RULE_GROUP = "coins";
-	public static LMGamerules.RuleID RULE_DROP_RARITY = new LMGamerules.RuleID(RULE_GROUP, "dropRarity");
-	public static LMGamerules.RuleID RULE_SCALE_ALL = new LMGamerules.RuleID(RULE_GROUP, "scaleAll");
-	public static LMGamerules.RuleID RULE_SCALE_NEUTRAL = new LMGamerules.RuleID(RULE_GROUP, "scaleNeutral");
-	public static LMGamerules.RuleID RULE_SCALE_HOSTILE = new LMGamerules.RuleID(RULE_GROUP, "scaleHostile");
-	public static LMGamerules.RuleID RULE_SCALE_BABY = new LMGamerules.RuleID(RULE_GROUP, "scaleBaby");
-	public static LMGamerules.RuleID RULE_SCALE_BOSS = new LMGamerules.RuleID(RULE_GROUP, "scaleBoss");
-	public static LMGamerules.RuleID RULE_INIT_COINS = new LMGamerules.RuleID(RULE_GROUP, "initCoins");
+	private static LMGamerules.RuleID create(String s)
+	{ return new LMGamerules.RuleID("coins", s); }
+	
+	public static LMGamerules.RuleID RULE_DROP_RARITY = create("dropRarity");
+	public static LMGamerules.RuleID RULE_SCALE_ALL = create("scaleAll");
+	public static LMGamerules.RuleID RULE_SCALE_NEUTRAL = create("scaleNeutral");
+	public static LMGamerules.RuleID RULE_SCALE_HOSTILE = create("scaleHostile");
+	public static LMGamerules.RuleID RULE_SCALE_BABY = create("scaleBaby");
+	public static LMGamerules.RuleID RULE_SCALE_BOSS = create("scaleBoss");
+	public static LMGamerules.RuleID RULE_INIT_COINS = create("initCoins");
 	
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent e)
@@ -52,8 +54,9 @@ public class Coins
 	@Mod.EventHandler
 	public void postInit(FMLPostInitializationEvent e)
 	{
-		mod.loadRecipes();
 		proxy.postInit(e);
+		
+		mod.loadRecipes();
 		
 		LMGamerules.register(RULE_DROP_RARITY, 3);
 		LMGamerules.register(RULE_SCALE_ALL, 1D);
