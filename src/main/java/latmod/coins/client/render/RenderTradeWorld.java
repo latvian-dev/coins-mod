@@ -31,7 +31,7 @@ public class RenderTradeWorld extends BlockRendererLM
 		
 		renderBlocks.blockAccess = t.getWorldObj();
 		renderBlocks.clearOverrideBlockTexture();
-		IPaintable.Renderer.renderCube(renderBlocks, t.getPaint(), IPaintable.Renderer.to6(Coins.b_trade.getIcon(0, 0)), x, y, z, renderBlocks.fullBlock);
+		IPaintable.Renderer.renderCube(iba, renderBlocks, t.getPaint(), IPaintable.Renderer.to6(Coins.b_trade.getIcon(0, 0)), x, y, z, renderBlocks.fullBlock);
 		
 		return true;
 	}
