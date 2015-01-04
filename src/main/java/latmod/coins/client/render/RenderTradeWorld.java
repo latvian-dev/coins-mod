@@ -17,7 +17,6 @@ public class RenderTradeWorld extends BlockRendererLM
 	
 	public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer)
 	{
-		renderBlocks.customMetadata = 0;
 		renderBlocks.setCustomColor(null);
 		renderBlocks.setRenderBounds(0D, 0D, 0D, 1D, 1D, 1D);
 		renderBlocks.setOverrideBlockTexture(Coins.b_trade.getBlockIcon());
