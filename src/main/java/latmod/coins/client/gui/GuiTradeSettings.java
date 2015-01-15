@@ -37,7 +37,7 @@ public class GuiTradeSettings extends GuiLM
 			{
 				if(text.length() == 0) text = "0";
 				
-				Integer t = Converter.parseInt(text);
+				Integer t = MathHelperLM.toInt(text);
 				if(t != null)
 				{
 					if(t < 0) t = 0;
