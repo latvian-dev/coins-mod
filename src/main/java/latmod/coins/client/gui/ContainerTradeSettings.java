@@ -2,14 +2,12 @@ package latmod.coins.client.gui;
 
 import latmod.core.gui.ContainerLM;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
 
 public class ContainerTradeSettings extends ContainerLM
 {
-	public ContainerTradeSettings(EntityPlayer ep, IInventory i)
+	public ContainerTradeSettings(EntityPlayer ep)
 	{
-		super(ep, i);
-		
+		super(ep, null);
 		addPlayerSlots(52);
 	}
 }

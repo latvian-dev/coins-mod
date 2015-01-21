@@ -14,7 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import cpw.mods.fml.relauncher.*;
 
-public class TileTrade extends TileLM implements IPaintable, IClientActionTile, IGuiTile, IWailaTile.Stack, IWailaTile.Body, IInventory
+public class TileTrade extends TileLM implements IPaintable, IClientActionTile, IGuiTile, IWailaTile.Stack, IWailaTile.Body
 {
 	public static final String BUTTON_BUY = "buy";
 	public static final String BUTTON_SELL = "sell";
@@ -177,11 +177,11 @@ public class TileTrade extends TileLM implements IPaintable, IClientActionTile, 
 	}
 	
 	public Container getContainer(EntityPlayer ep, int ID)
-	{ return new ContainerTradeSettings(ep, this); }
+	{ return new ContainerTradeSettings(ep); }
 	
 	@SideOnly(Side.CLIENT)
 	public GuiScreen getGui(EntityPlayer ep, int ID)
-	{ return new GuiTradeSettings(new ContainerTradeSettings(ep, this)); }
+	{ return new GuiTradeSettings(new ContainerTradeSettings(ep), this); }
 	
 	public ItemStack getWailaStack(IWailaDataAccessor data, IWailaConfigHandler config)
 	{ return tradeItem; }

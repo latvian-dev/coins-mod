@@ -21,10 +21,10 @@ public class GuiTradeSettings extends GuiLM
 	public TextBoxLM textBoxCoins;
 	public ButtonLM buttonItem, buttonBuy, buttonSell;
 	
-	public GuiTradeSettings(ContainerTradeSettings c)
+	public GuiTradeSettings(ContainerTradeSettings c, TileTrade t)
 	{
 		super(c, Coins.mod.getLocation("textures/gui/tradeBlock.png"));
-		tile = (TileTrade)c.inv;
+		tile = t;
 		xSize = 176;
 		ySize = 134;
 		
@@ -97,9 +97,9 @@ public class GuiTradeSettings extends GuiLM
 		super.drawGuiContainerBackgroundLayer(f, mx, my);
 		
 		if(tile.canBuy) buttonBuy.render(button_pressed);
-		if(buttonBuy.mouseOver(mx, my)) buttonBuy.render(button_over);
+		//if(buttonBuy.mouseOver(mx, my)) buttonBuy.render(button_over);
 		if(tile.canSell) buttonSell.render(button_pressed);
-		if(buttonSell.mouseOver(mx, my)) buttonSell.render(button_over);
+		//if(buttonSell.mouseOver(mx, my)) buttonSell.render(button_over);
 	}
 	
 	public void drawScreen(int mx, int my, float f)
