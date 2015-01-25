@@ -96,9 +96,9 @@ public class GuiTradeSettings extends GuiLM
 	{
 		super.drawGuiContainerBackgroundLayer(f, mx, my);
 		
-		if(tile.canBuy) buttonBuy.render(button_pressed);
+		if(tile.canBuy) buttonBuy.render(Icons.pressed);
 		//if(buttonBuy.mouseOver(mx, my)) buttonBuy.render(button_over);
-		if(tile.canSell) buttonSell.render(button_pressed);
+		if(tile.canSell) buttonSell.render(Icons.pressed);
 		//if(buttonSell.mouseOver(mx, my)) buttonSell.render(button_over);
 	}
 	
