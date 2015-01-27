@@ -31,8 +31,7 @@ public class CoinsClientEventHandler
 			
 			coinsAlpha--;
 			
-			int col1 = LMRenderHelper.getColor((clientCoins < prevCoins) ? EnumDyeColor.RED.color : EnumDyeColor.LIME.color, coinsAlpha);
-			
+			int col1 = LMRenderHelper.getColor((clientCoins < prevCoins) ? EnumDyeColor.RED.color.getRGB() : EnumDyeColor.LIME.color.getRGB(), coinsAlpha);
 			mc.fontRenderer.drawString("Coins: " + clientCoins, 4, e.resolution.getScaledHeight() - 12, col1);
 		}
 	}
