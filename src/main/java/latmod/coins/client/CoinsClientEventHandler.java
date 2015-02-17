@@ -39,11 +39,13 @@ public class CoinsClientEventHandler
 	@SubscribeEvent
 	public void dataChanged(LMPlayerEvent.DataChanged e)
 	{
-		if(e.isChannel(CoinsEventHandler.CHANNEL) && e.side.isClient())
+		if(e.side.isClient())
 		{
-			coinsAlpha = 255;
 			prevCoins = clientCoins;
 			clientCoins = PlayerCoins.get(e.player.uuid);
+			
+			if(prevCoins != clientCoins)
+				coinsAlpha = 255;
 		}
 	}
 }
